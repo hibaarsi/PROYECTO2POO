@@ -30,7 +30,9 @@ public class UserController {
         }
         if(!properFormatID(id)){
             System.out.println("El ID no es correcto");
-        }
+            return null;
+        }//poner q salte una excepcion
+        //si el formato no es corecto se crea igual el objeto añadir return
         if(Character.isLetter(id.charAt(0))){
             return new ClientEmpresa(name, email, id, cashier);
         } else{
