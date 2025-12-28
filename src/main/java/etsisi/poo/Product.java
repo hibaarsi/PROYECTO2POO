@@ -1,6 +1,6 @@
 package etsisi.poo;
 
-public abstract class Product {
+public abstract class Product implements TicketItem {
     //Constantes públicas
     public static final int MAX_NAME_LENGTH = 100;
 
@@ -27,10 +27,10 @@ public abstract class Product {
         this.price = price;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public String getId() {
+        return String.valueOf(id);
     }
-
     public String getName() {
         return name;
     }

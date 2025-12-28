@@ -2,7 +2,7 @@ package etsisi.poo;
 
 import java.time.LocalDate;
 
-public class Service {
+public class Service implements TicketItem{
     private static int contador=1;
     private String id;
     private ServiceCategory category;
@@ -15,7 +15,7 @@ public class Service {
         this.id= contador+ "S";
         contador++;
     }
-
+@Override
     public String getId() {
         return id;
     }
