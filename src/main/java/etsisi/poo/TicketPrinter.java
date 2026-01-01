@@ -1,5 +1,5 @@
 package etsisi.poo;
 
 public interface TicketPrinter {
-    String print();
+   void print(TicketModel<? > ticket);
 }

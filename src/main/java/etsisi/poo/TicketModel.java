@@ -1,6 +1,5 @@
 package etsisi.poo;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,40 +7,71 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public abstract class TicketModel<T> {
+public abstract class TicketModel<T extends TicketItem> {
     protected String id;
     protected TicketStatus ticketStatus;
-    protected ArrayList<Product> products;
-    protected List<Service> services;
+    //protected ArrayList<Product> products;
+    //protected List<Service> services;
     protected LocalDateTime openDate;
     protected LocalDateTime endDate;
 
-    protected List<ElementoTicket> elementos;
-    protected T ticketType;
+    protected List<ElementoTicket<T>> elementos;
+    //protected T ticketType;
     protected static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yy-MM-dd-HH:mm");
 
-    public TicketModel(String id,T ticketType) {
+    public TicketModel(String id) {
         this.id = id;
-        this.ticketType=ticketType;
         this.elementos = new ArrayList<>();
-        this.products = new ArrayList<>();
+       // this.products = new ArrayList<>();
         this.ticketStatus = TicketStatus.EMPTY;
         this.openDate = LocalDateTime.now();
     }
-
-    public List<ElementoTicket> getElementos() {//para leer desde fuera las lineas del ticket
+    protected abstract boolean canaddItem(T item);
+    protected abstract boolean canclose();
+    public List<ElementoTicket<T>> getElementos() {//para leer desde fuera las lineas del ticket
         return elementos;
     }
-    public T getTicketType(){
-        return ticketType;
+    public void addItem(T item, int quantity, ArrayList<String> personalizados){
+        if(isClosed()){
+            System.out.println("You cant add more items, its closed");
+            return;
+        }
+        if(!canaddItem(item)){
+            System.out.println("You cant add this type of item");
+            return;
+        }
+        elementos.add(new ElementoTicket<>(item,quantity,personalizados));
+        if(ticketStatus== TicketStatus.EMPTY){
+            ticketStatus= TicketStatus.OPEN;
+        }
     }
+    public void removeItem(T item ){
+        if (isClosed()) {
+            System.out.println("You cant add more products, its closed");
+            return;
+        }
+        Iterator<ElementoTicket<T>> elementoTicket = elementos.iterator();
+        while (elementoTicket.hasNext()) {
+            ElementoTicket e = elementoTicket.next();
+            if (e.getItem().getId() == item.getId()) {
+                elementoTicket.remove();
+            }
+        }
+        if( elementos.isEmpty()){
+            ticketStatus= TicketStatus.EMPTY;
+        }
+
+
+
+    }
+
     public static String calculateID() {
         String baseId = LocalDateTime.now().format(DATE_FORMATTER);
         Random random = new Random();
         return baseId + "-" + String.format("%05d", random.nextInt(100000));
     }
 
-    public void addProduct(Product product, int cantidad, ArrayList<String> personalizados) {
+  /*  public void addProduct(Product product, int cantidad, ArrayList<String> personalizados) {
         if (isClosed()) {
             System.out.println("You cant add more products, its closed");
             return;
@@ -61,7 +91,7 @@ public abstract class TicketModel<T> {
 
         } else if (product instanceof EventProducts) {
             for (ElementoTicket e : elementos) {
-                if (e.getProduct() instanceof EventProducts) {
+                if (e.getItem() instanceof EventProducts) {
                     System.out.println("No se pueden añadir productos de tipo comida o reunion");
                     return;
                 }
@@ -93,10 +123,10 @@ public abstract class TicketModel<T> {
         }
 
         // con iteradores primero lo eliminados de la lista de elementos todas las instancias y de los productos
-        Iterator<ElementoTicket> elementoTicket = elementos.iterator();
+        Iterator<ElementoTicket<T>> elementoTicket = elementos.iterator();
         while (elementoTicket.hasNext()) {
             ElementoTicket e = elementoTicket.next();
-            if (e.getProduct().getId() == product.getId()) {
+            if (e.getItem().getId() == product.getId()) {
                 elementoTicket.remove();
             }
         }
@@ -113,9 +143,13 @@ public abstract class TicketModel<T> {
         if (products.isEmpty())
             ticketStatus = TicketStatus.EMPTY;
 
-    }
+    }*/
 
     public void close() {
+        if(!canclose()){
+            System.out.println("It cant close");
+            return;
+        }
         if (!isClosed()) {
             ticketStatus = TicketStatus.CLOSED;
             endDate = LocalDateTime.now();

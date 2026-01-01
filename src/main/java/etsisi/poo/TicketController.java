@@ -2,7 +2,7 @@ package etsisi.poo;
 import java.util.*;
 
 public class TicketController {
-    private Map<String, TicketModel> tickets; //este es el mapa global
+    private Map<String, TicketModel<T>> tickets; //este es el mapa global
     private UserController userController;
 
     public TicketController(UserController userController) {

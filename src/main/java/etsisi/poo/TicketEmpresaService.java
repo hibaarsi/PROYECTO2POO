@@ -1,12 +1,12 @@
 package etsisi.poo;
 
-public class TicketCommon extends TicketModel<Product>{
-    public TicketCommon(String id){
+public class TicketEmpresaService extends TicketModel<Service>{
+    public TicketEmpresaService(String id){
         super(id);
     }
 
     @Override
-    protected boolean canaddItem(Product item) {
+    protected boolean canaddItem(Service item) {
         return true;
     }
 
