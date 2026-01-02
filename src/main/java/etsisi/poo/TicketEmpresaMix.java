@@ -1,7 +1,7 @@
 package etsisi.poo;
 
-public class TicketEmpresa extends TicketModel<TicketItem>{ // esta contiene los dos, productos y servicios)
-    public TicketEmpresa(String id){
+public class TicketEmpresaMix extends TicketModel<TicketItem>{ // esta contiene los dos, productos y servicios)
+    public TicketEmpresaMix(String id){
         super(id);
     }
 
