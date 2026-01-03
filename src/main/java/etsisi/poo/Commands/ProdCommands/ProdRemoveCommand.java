@@ -31,16 +31,14 @@ public class ProdRemoveCommand implements ICommand {
             Product removed = catalog.removeProduct(id); //intenta eliminar
 
             if (removed == null) {
-                System.out.printf("Product with id %d does not exist%n", id);
-            } else {
-                System.out.println(removed);
-                return "prod remove: ok\n";
+                return "Product with id " + id + " does not exist";
             }
+
+            return removed + "\nprod remove: ok\n";
 
         } catch (NumberFormatException e) {
             return "Invalid ID format";
         }
 
-        return null;
     }
 }

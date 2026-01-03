@@ -1,10 +1,43 @@
 package etsisi.poo.Commands;
 
+import etsisi.poo.CLITerminal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandController {
     private Map<String, ICommand> commands = new HashMap<>();
+
+    //NUEVO
+    private CLITerminal cli;
+
+    public CommandController(CLITerminal cli) {
+        this.cli = cli;
+    }
+
+    public boolean executeCommand(String primerArgumento, String segundoArgumento, String[] args) {
+        ICommand command = null;
+
+        if (segundoArgumento != null) {
+            command = commands.get(primerArgumento + ":" + segundoArgumento);
+        }
+
+        if (command == null) {
+            command = commands.get(primerArgumento);
+        }
+
+        if (command == null) {
+            cli.printString("Comando no encontrado\n");
+            return true;
+        }
+
+        String result = command.execute(args);
+        if (result != null) {
+            cli.printString(result);
+        }
+
+        return !primerArgumento.equals("exit");
+    }
+
 
     public void registerCommand(ICommand command) {
         //para que identifique la primera y segunda parte del comando
@@ -18,7 +51,7 @@ public class CommandController {
         commands.put(key, command);
     }
 
-    public boolean executeCommand(String primerArgumento, String segundoArgumento, String[] args) {
+   /* public boolean executeCommand(String primerArgumento, String segundoArgumento, String[] args) {
         ICommand command = null;
         String key;
         //primero se intenta con un comando de dos args
@@ -47,5 +80,5 @@ public class CommandController {
         //salir si el usuario ha escrito exit
         boolean exit = primerArgumento.equals("exit");
         return !exit;
-    }
+    }*/
 }

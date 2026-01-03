@@ -46,6 +46,18 @@ public abstract class AbstractProdAddCommand implements ICommand {
             boolean ok = catalog.addProduct(product);
 
             if (ok) {
+                return product + "\n" + getOkMessage();
+            } else {
+                return "Error processing ->" + getPrimerArgumento() + " " +
+                        getSegundoArgumento() + " ->Error adding product";
+            }
+
+        } catch (Exception e) {
+            return "Error processing ->" + getPrimerArgumento() + " " +
+                    getSegundoArgumento() + " ->" + e.getMessage();
+        }
+
+           /* if (ok) {
                 System.out.println(product);
                 System.out.println(getOkMessage());
             } else {
@@ -57,6 +69,7 @@ public abstract class AbstractProdAddCommand implements ICommand {
             System.out.println("Error processing ->" + getPrimerArgumento() + " " + getSegundoArgumento() +
                     " ->" + e.getMessage());
         }
-        return null;
+        return null; */
+
     }
 }

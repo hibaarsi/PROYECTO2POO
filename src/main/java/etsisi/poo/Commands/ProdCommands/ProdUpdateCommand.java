@@ -39,6 +39,19 @@ public class ProdUpdateCommand implements ICommand {
 
             boolean ok = catalog.updateProduct(id, field, value);
             if (ok) {
+                return product + "\nprod update: ok\n";
+            } else {
+                switch (field) {
+                    case "CATEGORY":
+                        return "Invalid category: " + value;
+                    case "PRICE":
+                        return "Enter a positive value for the price: " + value;
+                    default:
+                        return "Unknown field: " + field;
+                }
+            }
+
+            /*if (ok) {
                 System.out.println(product);
                 System.out.println("prod update: ok\n");
             } else {
@@ -52,14 +65,13 @@ public class ProdUpdateCommand implements ICommand {
                     default:
                         System.out.printf("Unknown field: %s%n", field);
                 }
-            }
+            }*/
         } catch (NumberFormatException e) {
-            System.out.println("Invalid ID format");
+            return "Invalid ID format";
 
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid argument");
+            return "Invalid argument";
         }
 
-        return null;
     }
 }

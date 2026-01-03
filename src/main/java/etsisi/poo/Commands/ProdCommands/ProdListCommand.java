@@ -30,7 +30,22 @@ public class ProdListCommand implements ICommand {
         if (products.isEmpty()) {
             System.out.println("There are no products in the catalog.\n");
 
-        } else {
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Catalog:\n");
+
+        //el TreeMap ordena automáticamente las entradas por la clave (ID del producto).
+        TreeMap<Integer, Product> organizedProducts = new TreeMap<>(products);
+
+        for (Product p : organizedProducts.values()) {
+            sb.append("  ").append(p).append("\n");
+        }
+
+        sb.append("prod list: ok\n");
+        return sb.toString();
+
+        /*else {
             System.out.println("Catalog: ");
             //el TreeMap ordena automáticamente las entradas por la clave (ID del producto).
             TreeMap<Integer, Product> organizedProducts = new TreeMap<>(products);
@@ -40,6 +55,6 @@ public class ProdListCommand implements ICommand {
             }
             System.out.println("prod list: ok\n");
         }
-        return null;
+        return null;*/
     }
 }

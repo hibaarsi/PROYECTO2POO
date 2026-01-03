@@ -1,118 +1,18 @@
 package etsisi.poo;
 
-import etsisi.poo.Commands.*;
-import etsisi.poo.Commands.CashCommands.CashAddCommand;
-import etsisi.poo.Commands.CashCommands.CashListCommand;
-import etsisi.poo.Commands.CashCommands.CashRemoveCommand;
-import etsisi.poo.Commands.CashCommands.CashTicketsCommand;
-import etsisi.poo.Commands.ClientCommands.ClientAddCommand;
-import etsisi.poo.Commands.ClientCommands.ClientListCommand;
-import etsisi.poo.Commands.ClientCommands.ClienteRemoveCommand;
-import etsisi.poo.Commands.ProdCommands.*;
-import etsisi.poo.Commands.TicketCommands.*;
+public interface CLI {
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
+    /*Poner el CLI como una interfaz y CLITerminal como una clase que la implementa
+    permite desacoplar la lógica de la aplicación del mecanismo de entrada y salida.
+    mejora la reutilización del código a parte de las dependencias y permite cambiar
+    la forma de interactuar con el usuario sin afectar al resto de la aplicación.*/
 
-public class CLI {
-    private CommandController commandController;
-    private UserController userController;
-    private TicketController ticketController;
-    private Catalog catalog;
-    private final static String PROMPT = "tUPM> ";
+    void run();
 
+    void runFromFile(String fileName);
 
-    public CLI() {
-        this.commandController = new CommandController();
-        this.userController = new UserController();
-        this.ticketController = new TicketController(userController);
-        this.catalog = new Catalog();
-        registerCommands();
-    }
+    void printString(String message);
 
-    public void run() {
-        Scanner sc = new Scanner(System.in);
-        boolean keepRunning = true;
+    String getCommand();
 
-        while (keepRunning) {
-            System.out.print(PROMPT);
-            String command = sc.nextLine();
-            String[] args = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-            String primerArgumento = args[0];
-            String segundoArgumento;
-
-            if (args.length > 1) {
-                segundoArgumento = args[1];
-            } else {
-                segundoArgumento = null;
-            }
-
-            keepRunning = startCommand(primerArgumento, segundoArgumento, args);
-        }
-        sc.close();
-    }
-
-    public void runfromFile(String fileName) {
-        try (FileReader fileReader = new FileReader(fileName);
-             BufferedReader bufreader = new BufferedReader(fileReader)) {
-
-            String command;
-            while ((command = bufreader.readLine()) != null) {
-                System.out.print(PROMPT);
-                System.out.println(command);
-                String[] args = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-                String primerArgumento = args[0];
-                String segundoArgumento;
-
-                if (args.length > 1) {
-                    segundoArgumento = args[1];
-                } else {
-                    segundoArgumento = null;
-                }
-
-                startCommand(primerArgumento, segundoArgumento, args);
-            }
-        } catch (IOException e) {
-            System.out.println("No encontrado tal archivo");
-        }
-    }
-
-    public boolean startCommand(String primerArgumento, String segundoArgumento, String[] args) {
-        return commandController.executeCommand(primerArgumento, segundoArgumento, args);
-    }
-
-    private void registerCommands() {
-        commandController.registerCommand(new ProdAddCommand(catalog));
-        commandController.registerCommand(
-                new ProdAddEventCommand(catalog, EventType.FOOD, "addFood"));
-        commandController.registerCommand(
-                new ProdAddEventCommand(catalog, EventType.MEETING, "addMeeting"));
-        commandController.registerCommand(new ProdListCommand(catalog));
-        commandController.registerCommand(new ProdRemoveCommand(catalog));
-        commandController.registerCommand(new ProdUpdateCommand(catalog));
-
-        commandController.registerCommand(new CashAddCommand(userController));
-        commandController.registerCommand(new CashRemoveCommand(userController, ticketController));
-        commandController.registerCommand(new CashListCommand(userController));
-        commandController.registerCommand(new CashTicketsCommand(this.userController));
-
-        commandController.registerCommand(new ClientAddCommand(userController));
-        commandController.registerCommand(new ClienteRemoveCommand(userController));
-        commandController.registerCommand(new ClientListCommand(userController));
-        commandController.registerCommand(new EchoCommand());
-        commandController.registerCommand(new HelpCommand());
-        commandController.registerCommand(new ExitCommand());
-
-        commandController.registerCommand(new TicketNewCommand(this.ticketController));
-        commandController.registerCommand(new TicketListCommand(this.ticketController));
-        commandController.registerCommand(new TicketAddCommand(this.ticketController, this.userController, this.catalog));
-        commandController.registerCommand(new TicketPrintCommand(this.ticketController));
-        commandController.registerCommand(new TicketRemoveCommand(this.ticketController, this.userController, this.catalog));
-    }
-
-    public static void printFromString(String message) {
-        System.out.println(message);
-    }
 }

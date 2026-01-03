@@ -1,7 +1,5 @@
 package etsisi.poo.Commands;
 
-import etsisi.poo.CLI;
-
 public class HelpCommand implements ICommand {
     private static final String SPACE = "    ";
     private static final String HELP_CATEGORIES =
@@ -46,7 +44,6 @@ public class HelpCommand implements ICommand {
                 .append(SPACE).append("exit\n\n\n")
                 .append(HELP_CATEGORIES)
                 .append(HELP_DISCOUNTS);
-        CLI.printFromString(sb.toString());
-        return null;
+        return sb.toString();
     }
 }
