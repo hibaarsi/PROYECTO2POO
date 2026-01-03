@@ -2,7 +2,7 @@ package etsisi.poo;
 import java.util.*;
 
 public class TicketController {
-    private Map<String, TicketModel<T>> tickets; //este es el mapa global
+    private Map<String, TicketModel<?>> tickets; //este es el mapa global
     private UserController userController;
 
     public TicketController(UserController userController) {
@@ -32,7 +32,7 @@ public class TicketController {
         }
     }
 
-    public TicketModel newTicket(String ticketID, String cashierID, String userID) throws Exception {
+    public TicketModel<?> newTicket(String ticketID, String cashierID, String userID,String tipo) throws Exception {
         Cashier cashier = userController.getCashier(cashierID);
         if (cashier == null) {
             throw new Exception("No se encontro el ID del cajero.");
@@ -42,6 +42,9 @@ public class TicketController {
         if (client == null) {
             throw new Exception("No se encontro el ID del cliente.");
         }
+        if(tipo==null || tipo.isEmpty()){
+            tipo= "p";
+        }
 
         String finalID = ticketID;
         if (finalID == null) {
@@ -50,8 +53,27 @@ public class TicketController {
             throw new Exception("El ID del ticket ya existe: " + finalID);
         }
 
-        TicketModel ticket = new TicketModel(finalID);
+        //TicketModel<?> ticket = new TicketModel(finalID);
+        TicketModel<? > ticket;
+        switch( tipo){
+            case "s":
+                if(!(client instanceof ClientEmpresa)){
+                    throw new Exception("Solo los clientes de empresa pueden crear tickets de servicio");
+                }
+                ticket= new TicketEmpresaService(finalID);
+                break;
 
+            case "m":
+                if(!(client instanceof ClientEmpresa)){
+                    throw new Exception("Solo los clientes de empresa pueden crear tickets de servicio");
+                }
+                ticket = new TicketEmpresaService(finalID);
+                 break;
+            case "p":
+                default:
+                    ticket= new TicketCommon(finalID);
+                    break;
+        }
         tickets.put(ticketID, ticket);
         cashier.addTicket(ticket);
         client.addTicket(ticket);
@@ -64,17 +86,17 @@ public class TicketController {
         return cashierTickets.contains(ticket);
     }
 
-    public TicketModel getTicket(String id) {
+    public TicketModel<?> getTicket(String id) {
         return tickets.get(id);
     }
 
-    public boolean addProductToTicket(String ticketId, Product product, int cantidad, ArrayList<String> personalizados) {
-        TicketModel ticket = getTicket(ticketId);
+    public boolean addItemToTicket(String ticketId, TicketItem item, int cantidad, ArrayList<String> personalizados) {
+        TicketModel<?> ticket = getTicket(ticketId);
         if (ticket == null || ticket.isClosed()) {
             return false;
         }
 
-        ticket.addProduct(product, cantidad, personalizados);
+        ticket.addItem(item, cantidad, personalizados);
         return true;
     }
 
