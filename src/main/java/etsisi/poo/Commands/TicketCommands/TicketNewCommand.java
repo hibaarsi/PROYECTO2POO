@@ -23,20 +23,29 @@ public class TicketNewCommand implements ICommand {
         String ticketID = null;
         String cashierID;
         String clientID;
-        if (args.length != 4 && args.length != 5) {
-            return "Usage: ticket new [<id>] <cashId> <userId>";
+        String tipo = "p";
+        if (args.length != 4 && args.length != 5 && args.length != 6) {
+            return "Usage: ticket new [<id>] <cashId> < userId> -[c|p|s] (default -p option)";
         }
         try {
             if (args.length == 4) {
                 cashierID = args[2];
                 clientID = args[3];
-            } else {
+            } else if(args.length == 5) {
                 ticketID = args[2];
                 cashierID = args[3];
                 clientID = args[4];
-            }
-            TicketModel ticket = ticketController.newTicket(ticketID, cashierID, clientID);
+            }else{
+                ticketID = args[2];
+                cashierID = args[3];
+                clientID = args[4];
+                tipo= args[5];
 
+            }
+            TicketModel<? extends TicketItem> ticket = ticketController.newTicket(ticketID, cashierID, clientID,tipo);
+            if(ticket==null){
+                return "Ticket not created";
+            }
             StringBuilder sb = new StringBuilder();
             sb.append("Ticket : ").append(ticket.getId()).append("\n");
             sb.append("  Total price: 0.0").append("\n");

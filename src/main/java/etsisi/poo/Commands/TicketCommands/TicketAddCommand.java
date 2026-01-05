@@ -4,7 +4,8 @@ import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
 
 import java.util.ArrayList;
-
+import java.util.List;
+//REVISAR
 public class TicketAddCommand implements ICommand {
     private final TicketController ticketController;
     private final UserController userController;
@@ -49,21 +50,21 @@ public class TicketAddCommand implements ICommand {
                 return "Product not found";
             }
 
-            TicketModel ticket = ticketController.getTicket(ticketId);
+            TicketModel<? extends TicketItem> ticket = ticketController.getTicket(ticketId);
             if (ticket == null) return "Ticket not found";
             Cashier cashier = userController.getCashier(cashierId);
             if (cashier == null) return "Cashier not found";
 
             if (product instanceof EventProducts) {
                 for (ElementoTicket elementoTicket : ticket.getElementos()) {
-                    if (elementoTicket.getProduct().getId() == productId)
+                    if ( elementoTicket.getItem().equals(product.getId())) //mirar
                         return "Product already in ticket";
 
                 }
             }
-           boolean add= ticketController.addProductToTicket(ticketId, product, quantity, personalizations);
+           boolean add= ticketController.addItemToTicket(ticketId, product, quantity, personalizations);
             if(!add) return "Product not added";
-            ticketController.printTicketInfo(ticket);
+           // ticketController.printTicketInfo(ticket);
         } catch (NumberFormatException e) {
             return "Invalid number format for product ID or quantity";
         } catch (Exception e) {
