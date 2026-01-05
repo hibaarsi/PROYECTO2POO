@@ -23,7 +23,6 @@ public class TicketPrintCommand implements ICommand {
     public String execute(String[] args) {
         if (args == null || args.length < 4) {
             return "Usage: ticket print <ticketId> <cashierId>";
-
         }
 
             String ticketId = args[2];
