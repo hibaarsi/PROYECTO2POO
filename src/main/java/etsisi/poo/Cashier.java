@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Cashier extends Users {
     private String UW;
-    private List<TicketModel> tickets;
+    private List<TicketModel<? extends TicketItem>> tickets;
 
     public Cashier(String name, String email, String UW) {
         super(name, email);
@@ -21,7 +21,7 @@ public class Cashier extends Users {
         this.tickets.remove(ticket);
     }
 
-    public List<TicketModel> getTickets() {
+    public List<TicketModel<? extends TicketItem>> getTickets() {
         return this.tickets;
     }
 

@@ -2,7 +2,7 @@ package etsisi.poo;
 import java.util.*;
 
 public class TicketController {
-    private Map<String, TicketModel<?>> tickets; //este es el mapa global
+    private Map<String, TicketModel<? extends TicketItem>> tickets; //este es el mapa global
     private UserController userController;
 
     public TicketController(UserController userController) {
@@ -25,8 +25,8 @@ public class TicketController {
 
     public void removeTicketsFromCashier(Cashier cashier) {
         if (cashier == null) return;
-        List<TicketModel> ticketsOfCashier = cashier.getTickets();
-        for (TicketModel t : ticketsOfCashier) {
+        List<TicketModel<? extends TicketItem>> ticketsOfCashier = cashier.getTickets();
+        for (TicketModel<? extends TicketItem> t : ticketsOfCashier) {
             tickets.remove(t.getId());
             userController.removeTicketFromAnyClient(t);
         }
@@ -55,7 +55,7 @@ public class TicketController {
 
         //TicketModel<?> ticket = new TicketModel(finalID);
         TicketModel<? > ticket;
-        switch( tipo){
+        switch( tipo.toLowerCase()){
             case "s":
                 if(!(client instanceof ClientEmpresa)){
                     throw new Exception("Solo los clientes de empresa pueden crear tickets de servicio");
@@ -74,7 +74,7 @@ public class TicketController {
                     ticket= new TicketCommon(finalID);
                     break;
         }
-        tickets.put(ticketID, ticket);
+        tickets.put(finalID, ticket);
         cashier.addTicket(ticket);
         client.addTicket(ticket);
         return ticket;
@@ -82,37 +82,37 @@ public class TicketController {
 
 
     public boolean cashierHasTicket(String cashierId, TicketModel ticket) {
-        List<TicketModel> cashierTickets = userController.getCashier(cashierId).getTickets();
+        List<TicketModel<? extends TicketItem>> cashierTickets = userController.getCashier(cashierId).getTickets();
         return cashierTickets.contains(ticket);
     }
 
-    public TicketModel<?> getTicket(String id) {
+    public TicketModel<? extends TicketItem> getTicket(String id) {
         return tickets.get(id);
     }
 
-    public boolean addItemToTicket(String ticketId, TicketItem item, int cantidad, ArrayList<String> personalizados) {
-        TicketModel<?> ticket = getTicket(ticketId);
+    public  boolean addItemToTicket(String ticketId, TicketItem item, int cantidad, ArrayList<String> personalizados) {
+        TicketModel<? extends TicketItem> ticket = getTicket(ticketId);
         if (ticket == null || ticket.isClosed()) {
             return false;
         }
-
-        ticket.addItem(item, cantidad, personalizados);
+        TicketModel<TicketItem> t = (TicketModel<TicketItem>) ticket;
+        t.addItem(item, cantidad, personalizados);
         return true;
     }
 
-    public boolean removeProductFromTicket(String ticketId, Product product) {
-        TicketModel ticket = getTicket(ticketId);
+    public boolean removeProductFromTicket(String ticketId, TicketItem item) {
+        TicketModel<? extends TicketItem> ticket = getTicket(ticketId);
         if (ticket == null || ticket.isClosed()) {
             return false;
         }
-
-        ticket.removeProduct(product);
+        TicketModel<TicketItem> t = (TicketModel<TicketItem>) ticket;
+        t.removeItem(item);
         return true;
 
     }
 
-    public List<TicketModel> getTicketsSortedByCashierId() {
-        List<TicketModel> sortedTickets = new ArrayList<>();
+    public List<TicketModel<? extends TicketItem>> getTicketsSortedByCashierId() {
+        List<TicketModel<? extends TicketItem>> sortedTickets = new ArrayList<>();
 
         List<Cashier> cashiers = userController.getCashiersSortedByID();
 
@@ -126,13 +126,13 @@ public class TicketController {
 
     public void listAllTickets() {
         System.out.println("Ticket List:");
-        List<TicketModel> tickets = getTicketsSortedByCashierId();
-        for (TicketModel t : tickets) {
+        List<TicketModel<? extends TicketItem>> tickets = getTicketsSortedByCashierId();
+        for (TicketModel<? extends TicketItem> t : tickets) {
             System.out.println("  " + t.getId() + " - " + t.getTicketStatus());
         }
     }
 
-    public void printTicketInfo(TicketModel ticket) {
+  /*  public void printTicketInfo(TicketModel ticket) {
         if (ticket == null) {
             System.out.println("Ticket ID not found");
             return;
@@ -225,5 +225,5 @@ public class TicketController {
             swapIdInMapWhenClose(ticketId);
         }
         printTicketInfo(ticket);
-    }
+    }*/
 }
