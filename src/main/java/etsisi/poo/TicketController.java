@@ -61,17 +61,20 @@ public class TicketController {
                     throw new Exception("Solo los clientes de empresa pueden crear tickets de servicio");
                 }
                 ticket= new TicketEmpresaService(finalID);
+                ticket.setPrinter(new TicketServicePrinter());
                 break;
 
             case "m":
                 if(!(client instanceof ClientEmpresa)){
-                    throw new Exception("Solo los clientes de empresa pueden crear tickets de servicio");
+                    throw new Exception("Solo los clientes de empresa mixta pueden crear tickets de servicios y productos ");
                 }
-                ticket = new TicketEmpresaService(finalID);
+                ticket = new TicketEmpresaMix(finalID);
+                ticket.setPrinter(new TicketMixPrinter());
                  break;
             case "p":
                 default:
                     ticket= new TicketCommon(finalID);
+                    ticket.setPrinter(new TicketProductoPrinter());
                     break;
         }
         tickets.put(finalID, ticket);

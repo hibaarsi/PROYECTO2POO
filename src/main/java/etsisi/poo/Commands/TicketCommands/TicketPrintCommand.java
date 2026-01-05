@@ -36,7 +36,7 @@ public class TicketPrintCommand implements ICommand {
                 return "This ticket does not belong to cashier " + cashierId;
             }
 
-        TicketPrinter printer;
+       /* TicketPrinter printer;
             if(ticket instanceof TicketEmpresaMix){
                 printer = new TicketMixPrinter();
             }else if(ticket instanceof  TicketEmpresaService){ // si el ticket es de servivivos
@@ -44,6 +44,12 @@ public class TicketPrintCommand implements ICommand {
             }else {
                 printer = new TicketProductoPrinter();
             } // solo se decide quien va a imprimir
+
+            */
+            TicketPrinter printer = ticket.getPrinter();
+            if(printer==null){
+                return "Printer not found";
+            }
 
             printer.print(ticket); //imprime el que he elegido
 

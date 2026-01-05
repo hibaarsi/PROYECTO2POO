@@ -14,7 +14,7 @@ public abstract class TicketModel<T extends TicketItem> {
     //protected List<Service> services;
     protected LocalDateTime openDate;
     protected LocalDateTime endDate;
-
+    protected TicketPrinter printer;
     protected List<ElementoTicket<T>> elementos;
     //protected T ticketType;
     protected static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yy-MM-dd-HH:mm");
@@ -30,6 +30,15 @@ public abstract class TicketModel<T extends TicketItem> {
     protected abstract boolean canclose();
     public List<ElementoTicket<T>> getElementos() {//para leer desde fuera las lineas del ticket
         return elementos;
+    }
+    public void setPrinter(TicketPrinter printer){
+        this.printer = printer;
+    }
+    public TicketPrinter getPrinter(){
+        return printer;
+    }
+    public void print(){
+        printer.print(this);
     }
     public void addItem(T item, int quantity, ArrayList<String> personalizados){
         if(isClosed()){
