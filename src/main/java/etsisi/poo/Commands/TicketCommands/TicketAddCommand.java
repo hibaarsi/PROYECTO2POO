@@ -45,7 +45,7 @@ public class TicketAddCommand implements ICommand {
                 }
             }
 
-            Product product = catalog.getProduct(productId);
+           TicketItem product = catalog.getProduct(productId);
             if (product == null) {
                 return "Product not found";
             }

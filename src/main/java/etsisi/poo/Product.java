@@ -30,7 +30,7 @@ public abstract class Product implements TicketItem {
     @Override
     public String getId() {
         return String.valueOf(id);
-    }
+    } //mirar
     public String getName() {
         return name;
     }

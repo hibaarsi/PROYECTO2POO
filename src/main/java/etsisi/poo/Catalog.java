@@ -22,7 +22,7 @@ public class Catalog {
         if (items.containsKey(product.getId())) {
             return false; //  esta duplicado
         }
-        items.put(product.getId(), product);
+        items.put(Integer.valueOf(product.getId()), product);
         return true;
     }
     public void addService(Service service) {
