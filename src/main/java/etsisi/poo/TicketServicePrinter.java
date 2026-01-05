@@ -1,7 +1,8 @@
 package etsisi.poo;
 
 public class TicketServicePrinter implements TicketPrinter {
-   @Override
+   //estrategia de impresion
+    @Override
     public void print(TicketModel<?> ticket){
 
        if(ticket==null){
@@ -16,7 +17,8 @@ public class TicketServicePrinter implements TicketPrinter {
 
 
        System.out.println("Ticket : "+ticket.getId());
-       System.out.println("Services Included:");
+        System.out.println("Type   : COMPANY SERVICES");
+        System.out.println("Services Included:");
 
        for (ElementoTicket<?> e : ticket.getElementos()) {
            int cantidad =e.getQuantity();

@@ -1,10 +1,10 @@
 package etsisi.poo.Commands.TicketCommands;
 
+import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
-import etsisi.poo.TicketController;
-import etsisi.poo.TicketModel;
 
 public class TicketPrintCommand implements ICommand {
+   //no imprime directamente, elige quien imprime el ticket
     private final TicketController ticketController;
 
     public TicketPrintCommand(TicketController ticketController) {
@@ -24,18 +24,33 @@ public class TicketPrintCommand implements ICommand {
         if (args == null || args.length < 4) {
             return "Usage: ticket print <ticketId> <cashierId>";
 
-        } else {
+        }
+
             String ticketId = args[2];
             String cashierId = args[3];
-            TicketModel ticket = ticketController.getTicket(ticketId);
+
+            TicketModel<?> ticket = ticketController.getTicket(ticketId); //se obtiene el ticket desde el controlador
+
             if (ticket == null) return "Ticket ID not found";
+
             if (!ticketController.cashierHasTicket(cashierId, ticket)) {//comprobar q el cajero tiene este ticket
                 return "This ticket does not belong to cashier " + cashierId;
             }
-            ticketController.printTicket(ticketId);
+
+        TicketPrinter printer;
+            if(ticket instanceof TicketEmpresaMix){
+                printer = new TicketMixPrinter();
+            }else if(ticket instanceof  TicketEmpresaService){ // si el ticket es de servivivos
+                printer = new TicketServicePrinter();
+            }else {
+                printer = new TicketProductoPrinter();
+            } // solo se decide quien va a imprimir
+
+            printer.print(ticket); //imprime el que he elegido
+
             return "ticket print: ok\n";
 
-        }
+            //antes se decidia y se pintaba junto, ahora el sistema decide y otro objeto pinta
     }
 
 }
