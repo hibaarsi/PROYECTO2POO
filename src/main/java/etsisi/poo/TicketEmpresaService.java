@@ -7,11 +7,20 @@ public class TicketEmpresaService extends TicketModel<Service>{
 
     @Override
     protected boolean canaddItem(Service item) {
-        return true;
+        return !item.isExpired();
     }
 
     @Override
     protected boolean canclose() {
-        return (elementos.size()>0);
+        if(elementos.isEmpty()){
+            return false;
+        }
+        for(ElementoTicket<Service> servicio: elementos){
+            Service s= servicio.getItem();
+            if(s.isExpired()){
+                return false;
+            }
+        }
+        return true;
     }
 }

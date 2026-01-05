@@ -7,6 +7,9 @@ public class TicketEmpresaMix extends TicketModel<TicketItem>{ // esta contiene 
 
     @Override
     protected boolean canaddItem(TicketItem item) {
+        if(item instanceof Service){
+            return !((Service) item).isExpired();
+        }
         return true;
     }
 
@@ -15,9 +18,13 @@ public class TicketEmpresaMix extends TicketModel<TicketItem>{ // esta contiene 
         int servicios = 0;
         int productos = 0;
         for (ElementoTicket<TicketItem> e : elementos) {
-            if (e.getItem() instanceof Service) {
-                servicios++;
-            } else if (e.getItem() instanceof Product) {
+            TicketItem item= e.getItem();
+            if (item instanceof Service) {
+               servicios++;
+               if(((Service) item).isExpired()){
+                   return false;
+               }
+            } else if (item instanceof Product) {
                 productos++;
             }
         }

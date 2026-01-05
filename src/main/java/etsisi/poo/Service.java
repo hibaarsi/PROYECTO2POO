@@ -35,6 +35,9 @@ public class Service implements TicketItem{
     public void setCategory(ServiceCategory category) {
         this.category = category;
     }
+    public boolean isExpired(){
+        return smaxDate.isBefore(LocalDate.now());
+    }
 
     @Override
     public String toString() {

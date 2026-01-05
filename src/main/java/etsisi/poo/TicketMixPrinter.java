@@ -14,7 +14,7 @@ public class TicketMixPrinter implements TicketPrinter{
             System.out.println("Ticket null");
             return;
         }
-        List<ElementoTicket<?>> elementos = ticket.getElementos();
+        List<? extends ElementoTicket<?>> elementos = ticket.getElementos();
         if (elementos == null || elementos.isEmpty()) {
             System.out.println("Its empty");
             return;
