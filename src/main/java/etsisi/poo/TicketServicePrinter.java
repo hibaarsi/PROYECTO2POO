@@ -14,6 +14,7 @@ public class TicketServicePrinter implements TicketPrinter {
            return;
        }
 
+
        System.out.println("Ticket : "+ticket.getId());
        System.out.println("Services Included:");
 
