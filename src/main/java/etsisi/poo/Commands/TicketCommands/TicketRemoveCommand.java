@@ -49,6 +49,7 @@ public class TicketRemoveCommand implements ICommand {
         boolean remove=ticketController.removeProductFromTicket(ticketId,product);
         if(!remove) return "Product not removed";
       //  ticketController.printTicketInfo(ticket);
+        ticket.print();
         return "ticket remove: ok\n";
 
     }

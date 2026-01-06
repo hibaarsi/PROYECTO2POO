@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class TicketModel<T extends TicketItem> {
-
     protected String id;
     protected TicketStatus ticketStatus;
     //protected ArrayList<Product> products;
@@ -23,47 +22,39 @@ public abstract class TicketModel<T extends TicketItem> {
     public TicketModel(String id) {
         this.id = id;
         this.elementos = new ArrayList<>();
-        // this.products = new ArrayList<>();
+       // this.products = new ArrayList<>();
         this.ticketStatus = TicketStatus.EMPTY;
         this.openDate = LocalDateTime.now();
     }
-
     protected abstract boolean canaddItem(T item);
-
     protected abstract boolean canclose();
-
     public List<ElementoTicket<T>> getElementos() {//para leer desde fuera las lineas del ticket
         return elementos;
     }
-
-    public void setPrinter(TicketPrinter printer) {
+    public void setPrinter(TicketPrinter printer){
         this.printer = printer;
     }
-
-    public TicketPrinter getPrinter() {
+    public TicketPrinter getPrinter(){
         return printer;
     }
-
-    public void print() {
+    public void print(){
         printer.print(this);
     }
-
-    public void addItem(T item, int quantity, ArrayList<String> personalizados) {
-        if (isClosed()) {
+    public void addItem(T item, int quantity, ArrayList<String> personalizados){
+        if(isClosed()){
             System.out.println("You cant add more items, its closed");
             return;
         }
-        if (!canaddItem(item)) {
+        if(!canaddItem(item)){
             System.out.println("You cant add this type of item");
             return;
         }
-        elementos.add(new ElementoTicket<>(item, quantity, personalizados));
-        if (ticketStatus == TicketStatus.EMPTY) {
-            ticketStatus = TicketStatus.OPEN;
+        elementos.add(new ElementoTicket<>(item,quantity,personalizados));
+        if(ticketStatus== TicketStatus.EMPTY){
+            ticketStatus= TicketStatus.OPEN;
         }
     }
-
-    public void removeItem(T item) {
+    public void removeItem(T item ){
         if (isClosed()) {
             System.out.println("You cant add more products, its closed");
             return;
@@ -71,13 +62,14 @@ public abstract class TicketModel<T extends TicketItem> {
         Iterator<ElementoTicket<T>> elementoTicket = elementos.iterator();
         while (elementoTicket.hasNext()) {
             ElementoTicket e = elementoTicket.next();
-            if (e.getItem().getId().equals(item.getId())) {
+            if (e.getItem().getId() == item.getId()) {
                 elementoTicket.remove();
             }
         }
-        if (elementos.isEmpty()) {
-            ticketStatus = TicketStatus.EMPTY;
+        if( elementos.isEmpty()){
+            ticketStatus= TicketStatus.EMPTY;
         }
+
 
 
     }
@@ -163,7 +155,7 @@ public abstract class TicketModel<T extends TicketItem> {
     }*/
 
     public void close() {
-        if (!canclose()) {
+        if(!canclose()){
             System.out.println("It cant close");
             return;
         }
@@ -186,29 +178,4 @@ public abstract class TicketModel<T extends TicketItem> {
     public TicketStatus getTicketStatus() {
         return ticketStatus;
     }
-
-    public LocalDateTime getOpenDate() {
-        return openDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setOpenDate(LocalDateTime dt) {
-        this.openDate = dt;
-    }
-
-    public void setEndDate(LocalDateTime dt) {
-        this.endDate = dt;
-    }
-
-    public void setTicketStatus(TicketStatus st) {
-        this.ticketStatus = st;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 }
