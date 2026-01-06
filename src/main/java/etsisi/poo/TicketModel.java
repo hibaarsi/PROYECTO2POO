@@ -2,10 +2,7 @@ package etsisi.poo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public abstract class TicketModel<T extends TicketItem> {
     protected String id;
@@ -62,7 +59,7 @@ public abstract class TicketModel<T extends TicketItem> {
         Iterator<ElementoTicket<T>> elementoTicket = elementos.iterator();
         while (elementoTicket.hasNext()) {
             ElementoTicket e = elementoTicket.next();
-            if (e.getItem().getId() == item.getId()) {
+            if (Objects.equals(e.getItem().getId(), item.getId())) {
                 elementoTicket.remove();
             }
         }
