@@ -5,6 +5,7 @@ import etsisi.poo.Commands.ICommand;
 
 import java.util.ArrayList;
 import java.util.List;
+
 //REVISAR
 public class TicketAddCommand implements ICommand {
     private final TicketController ticketController;
@@ -16,14 +17,17 @@ public class TicketAddCommand implements ICommand {
         this.userController = userController;
         this.catalog = catalog;
     }
+
     @Override
     public String getPrimerArgumento() {
         return "ticket";
     }
+
     @Override
     public String getSegundoArgumento() {
         return "add";
     }
+
     @Override
     public String execute(String[] args) {
         if (args.length < 6) {
@@ -45,26 +49,32 @@ public class TicketAddCommand implements ICommand {
                 }
             }
 
-           TicketItem product = catalog.getProduct(productId);
+            TicketItem product = catalog.getProduct(productId);
             if (product == null) {
                 return "Product not found";
             }
 
             TicketModel<? extends TicketItem> ticket = ticketController.getTicket(ticketId);
             if (ticket == null) return "Ticket not found";
+
             Cashier cashier = userController.getCashier(cashierId);
             if (cashier == null) return "Cashier not found";
+            String owner = ticketController.getCashierIdOfTicket(ticketId);
+            if (owner != null && !owner.equals(cashierId)) {
+                return "Cashier does not own this ticket";
+            }
+
 
             if (product instanceof EventProducts) {
                 for (ElementoTicket elementoTicket : ticket.getElementos()) {
-                    if ( elementoTicket.getItem().equals(product.getId())) //mirar
+                    if (elementoTicket.getItem().getId().equals(product.getId())) //mirar
                         return "Product already in ticket";
 
                 }
             }
-           boolean add= ticketController.addItemToTicket(ticketId, product, quantity, personalizations);
-            if(!add) return "Product not added";
-           // ticketController.printTicketInfo(ticket);
+            boolean add = ticketController.addItemToTicket(ticketId, product, quantity, personalizations);
+            if (!add) return "Product not added";
+            // ticketController.printTicketInfo(ticket);
         } catch (NumberFormatException e) {
             return "Invalid number format for product ID or quantity";
         } catch (Exception e) {

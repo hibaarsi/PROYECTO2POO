@@ -28,20 +28,21 @@ public class UserController {
         if (!cashierMap.containsKey(cashier.getID())) {
             System.out.println("El cajero no existe");
         }
-        if(!properFormatID(id)){
+        if (!properFormatID(id)) {
             System.out.println("El ID no es correcto");
             return null;
         }//poner q salte una excepcion
         //si el formato no es corecto se crea igual el objeto añadir return
-        if(Character.isLetter(id.charAt(0))){
+        if (Character.isLetter(id.charAt(0))) {
             return new ClientEmpresa(name, email, id, cashier);
-        } else{
+        } else {
             return new Client(name, email, id, cashier);
         }
     }
-    private boolean properFormatID(String id){
-        if( id==null || id.isEmpty() ) return false;
-        if(Character.isLetter(id.charAt(0))){
+
+    private boolean properFormatID(String id) {
+        if (id == null || id.isEmpty()) return false;
+        if (Character.isLetter(id.charAt(0))) {
             return id.length() == 9;
         }
         return Character.isDigit(id.charAt(0));
@@ -159,4 +160,13 @@ public class UserController {
 
         return true;
     }
+
+    public List<Cashier> listCashiersIt() {
+        return new ArrayList<>(cashierMap.values());
+    }
+
+    public List<Client> listClientsIt() {
+        return new ArrayList<>(clientMap.values());
+    }
+
 }

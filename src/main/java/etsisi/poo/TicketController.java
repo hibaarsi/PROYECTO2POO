@@ -1,9 +1,15 @@
 package etsisi.poo;
+
 import java.util.*;
 
 public class TicketController {
+
     private Map<String, TicketModel<? extends TicketItem>> tickets; //este es el mapa global
     private UserController userController;
+
+    private Map<String, String> ticketToCashier = new HashMap<>();
+    private Map<String, String> ticketToClient = new HashMap<>();
+
 
     public TicketController(UserController userController) {
         this.tickets = new HashMap<>();
@@ -28,11 +34,13 @@ public class TicketController {
         List<TicketModel<? extends TicketItem>> ticketsOfCashier = cashier.getTickets();
         for (TicketModel<? extends TicketItem> t : ticketsOfCashier) {
             tickets.remove(t.getId());
+            ticketToCashier.remove(t.getId());
+            ticketToClient.remove(t.getId());
             userController.removeTicketFromAnyClient(t);
         }
     }
 
-    public TicketModel<?> newTicket(String ticketID, String cashierID, String userID,String tipo) throws Exception {
+    public TicketModel<?> newTicket(String ticketID, String cashierID, String userID, String tipo) throws Exception {
         Cashier cashier = userController.getCashier(cashierID);
         if (cashier == null) {
             throw new Exception("No se encontro el ID del cajero.");
@@ -42,8 +50,8 @@ public class TicketController {
         if (client == null) {
             throw new Exception("No se encontro el ID del cliente.");
         }
-        if(tipo==null || tipo.isEmpty()){
-            tipo= "p";
+        if (tipo == null || tipo.isEmpty()) {
+            tipo = "p";
         }
 
         String finalID = ticketID;
@@ -54,32 +62,36 @@ public class TicketController {
         }
 
         //TicketModel<?> ticket = new TicketModel(finalID);
-        TicketModel<? > ticket;
-        switch( tipo.toLowerCase()){
+        TicketModel<?> ticket;
+        switch (tipo.toLowerCase()) {
             case "s":
-                if(!(client instanceof ClientEmpresa)){
+                if (!(client instanceof ClientEmpresa)) {
                     throw new Exception("Solo los clientes de empresa pueden crear tickets de servicio");
                 }
-                ticket= new TicketEmpresaService(finalID);
+                ticket = new TicketEmpresaService(finalID);
                 ticket.setPrinter(new TicketServicePrinter());
                 break;
 
             case "m":
-                if(!(client instanceof ClientEmpresa)){
+                if (!(client instanceof ClientEmpresa)) {
                     throw new Exception("Solo los clientes de empresa mixta pueden crear tickets de servicios y productos ");
                 }
                 ticket = new TicketEmpresaMix(finalID);
                 ticket.setPrinter(new TicketMixPrinter());
-                 break;
+                break;
             case "p":
-                default:
-                    ticket= new TicketCommon(finalID);
-                    ticket.setPrinter(new TicketProductoPrinter());
-                    break;
+            default:
+                ticket = new TicketCommon(finalID);
+                ticket.setPrinter(new TicketProductoPrinter());
+                break;
         }
         tickets.put(finalID, ticket);
         cashier.addTicket(ticket);
         client.addTicket(ticket);
+
+        ticketToCashier.put(finalID, cashierID);
+        ticketToClient.put(finalID, userID);
+
         return ticket;
     }
 
@@ -93,7 +105,7 @@ public class TicketController {
         return tickets.get(id);
     }
 
-    public  boolean addItemToTicket(String ticketId, TicketItem item, int cantidad, ArrayList<String> personalizados) {
+    public boolean addItemToTicket(String ticketId, TicketItem item, int cantidad, ArrayList<String> personalizados) {
         TicketModel<? extends TicketItem> ticket = getTicket(ticketId);
         if (ticket == null || ticket.isClosed()) {
             return false;
@@ -134,6 +146,33 @@ public class TicketController {
             System.out.println("  " + t.getId() + " - " + t.getTicketStatus());
         }
     }
+
+    public Map<String, TicketModel<? extends TicketItem>> getTicketsMap() {
+        return tickets;
+    }
+
+    public void putTicket(String id, TicketModel<? extends TicketItem> ticket) {
+        tickets.put(id, ticket);
+    }
+
+    public void putTicket(TicketModel<? extends TicketItem> ticket) {
+        tickets.put(ticket.getId(), ticket);
+    }
+
+    public String getCashierIdOfTicket(String ticketId) {
+        return ticketToCashier.get(ticketId);
+    }
+
+    public String getClientIdOfTicket(String ticketId) {
+        return ticketToClient.get(ticketId);
+    }
+
+    public void setTicketOwner(String ticketId, String cashierId, String clientId){
+        ticketToCashier.put(ticketId, cashierId);
+        ticketToClient.put(ticketId, clientId);
+    }
+
+
 
   /*  public void printTicketInfo(TicketModel ticket) {
         if (ticket == null) {

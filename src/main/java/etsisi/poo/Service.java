@@ -2,8 +2,8 @@ package etsisi.poo;
 
 import java.time.LocalDate;
 
-public class Service implements TicketItem{
-    private static int contador=1;
+public class Service implements TicketItem {
+    private static int contador = 1;
     private String id;
     private ServiceCategory category;
     private LocalDate smaxDate;
@@ -12,10 +12,11 @@ public class Service implements TicketItem{
     public Service(ServiceCategory category, LocalDate smaxDate) {
         this.category = category;
         this.smaxDate = smaxDate;
-        this.id= contador+ "S";
+        this.id = contador + "S";
         contador++;
     }
-@Override
+
+    @Override
     public String getId() {
         return id;
     }
@@ -35,7 +36,8 @@ public class Service implements TicketItem{
     public void setCategory(ServiceCategory category) {
         this.category = category;
     }
-    public boolean isExpired(){
+
+    public boolean isExpired() {
         return smaxDate.isBefore(LocalDate.now());
     }
 
