@@ -38,7 +38,7 @@ public class Client extends Users {
     @Override
     public String toString() {
         return String.format(
-                "Client{identifier='%s', name='%s', email='%s', cash=%s}",
+                "USER{identifier='%s', name='%s', email='%s', cash=%s}",
                 this.id, getName(), getEmail(), this.cashier.getID());
     }
 }
