@@ -19,7 +19,18 @@ public class ProdAddCommand extends AbstractProdAddCommand {
 
     @Override
     protected Product createProduct(String[] args) {
-        int id = parseId(args[2]);
+        int id;
+        if(args.length!= 5 && args.length!= 6){
+            System.out.println("Usage: prod add [<id>] \"<name>\" <category> <price> [<maxPersonal>]");
+        }
+        if(args.length ==5){
+            id=0;
+            String name=args[2];
+            Category category = Category.valueOf(args[3].toUpperCase());
+            double price = parsePrice(args[4]);
+            return new RegularProduct(id,name, category, price);
+        }else
+        id = parseId(args[2]);
         String name = parseName(args[3]);
         Category category = Category.valueOf(args[4].toUpperCase());
         double price = parsePrice(args[5]);

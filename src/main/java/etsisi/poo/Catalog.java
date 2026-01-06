@@ -25,8 +25,15 @@ public class Catalog {
         items.put(Integer.valueOf(product.getId()), product);
         return true;
     }
-    public void addService(Service service) {
+    public boolean addService(Service service) {
+        if(services.size()>=MAX_ELEMENTS){
+            return false;
+        }
+        if( services.containsKey(service.getId())){
+            return false;
+        }
         services.put(service.getId(), service);
+        return true;
     }
     public void removeService(String id) {
         services.remove(id);

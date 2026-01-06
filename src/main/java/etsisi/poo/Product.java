@@ -18,7 +18,7 @@ public abstract class Product implements TicketItem {
     protected double price;
 
     public Product(int id, String name, double price) {
-        if (id <= 0) System.out.println(NEEDS_TO_BE_POSITIVE);
+        if (id < 0) System.out.println(NEEDS_TO_BE_POSITIVE);
         if (name == null || name.trim().isEmpty()) System.out.println(NOT_EMPTY);
         if (name.length() > MAX_NAME_LENGTH) System.out.println(SIZE_LIMIT_MESSAGE);
         if (price <= 0) System.out.println(PRICE_RESTRICTION);
