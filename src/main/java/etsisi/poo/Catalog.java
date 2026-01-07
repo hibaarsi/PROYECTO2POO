@@ -19,25 +19,29 @@ public class Catalog {
         if (items.size() >= MAX_ELEMENTS) {
             return false; // límite alcanzado
         }
-        if (items.containsKey(product.getId())) {
-            return false; //  esta duplicado
-        }
-        items.put(Integer.valueOf(product.getId()), product);
+
+        int key = Integer.parseInt(product.getId());
+        if (items.containsKey(key)) return false;
+        items.put(key, product);
+
         return true;
     }
+
     public boolean addService(Service service) {
-        if(services.size()>=MAX_ELEMENTS){
+        if (services.size() >= MAX_ELEMENTS) {
             return false;
         }
-        if( services.containsKey(service.getId())){
+        if (services.containsKey(service.getId())) {
             return false;
         }
         services.put(service.getId(), service);
         return true;
     }
+
     public void removeService(String id) {
         services.remove(id);
     }
+
     public Service getService(String id) {
         return services.get(id);
     }
@@ -92,4 +96,9 @@ public class Catalog {
                 return false; // campo desconocido
         }
     }
+
+    public Map<String, Service> getServices() {
+        return new HashMap<>(services);
+    }
+
 }

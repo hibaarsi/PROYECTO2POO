@@ -10,6 +10,11 @@ import etsisi.poo.Commands.ClientCommands.ClientListCommand;
 import etsisi.poo.Commands.ClientCommands.ClienteRemoveCommand;
 import etsisi.poo.Commands.ProdCommands.*;
 import etsisi.poo.Commands.TicketCommands.*;
+import etsisi.poo.errors.PersistenceException;
+import etsisi.poo.persistence.PersistenceManager;
+import etsisi.poo.persistence.json.JsonCatalogRepository;
+import etsisi.poo.persistence.json.JsonTicketsRepository;
+import etsisi.poo.persistence.json.JsonUsersRepository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,6 +39,30 @@ public class CLITerminal implements CLI {
         this.catalog = new Catalog();
         this.sc = new Scanner(System.in);  //NUEVO
         registerCommands();
+
+        PersistenceManager pm = new PersistenceManager(
+                new JsonUsersRepository(),
+                new JsonCatalogRepository(),
+                new JsonTicketsRepository()
+        );
+
+        // LOAD al arrancar
+        try {
+            pm.loadAll(userController, ticketController, catalog);
+            printString("[OK] Datos cargados.\n");
+        } catch (PersistenceException e) {
+            printString("[WARN] " + e.getMessage() + "\n");
+            // seguimos con datos vacíos
+        }
+
+        // SAVE al cerrar
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                pm.saveAll(userController, ticketController, catalog);
+            } catch (Exception e) {
+                // No hacemos nada: en shutdown no se puede recuperar (o podemos poner un System.err)
+            }
+        }));
     }
 
     public void run() {
@@ -137,7 +166,4 @@ public class CLITerminal implements CLI {
         commandController.registerCommand(new TicketRemoveCommand(this.ticketController, this.userController, this.catalog));
     }
 
-    /*public static void printFromString(String message) {
-        System.out.println(message);
-    }*/
 }

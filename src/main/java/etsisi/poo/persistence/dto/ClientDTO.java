@@ -1,7 +1,7 @@
 package etsisi.poo.persistence.dto;
 
 public class ClientDTO {
-    public String id;         // DNI
+    public String id;         // DNI o NIF
     public String name;
     public String email;
 

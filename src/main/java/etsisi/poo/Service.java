@@ -16,6 +16,17 @@ public class Service implements TicketItem {
         contador++;
     }
 
+    public Service(String id, ServiceCategory category, LocalDate smaxDate) {
+        this.id = id;
+        this.category = category;
+        this.smaxDate = smaxDate;
+    }
+
+    public static void setNextCounter(int next) {
+        contador = next;
+    }
+
+
     @Override
     public String getId() {
         return id;
