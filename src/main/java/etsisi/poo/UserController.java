@@ -37,10 +37,10 @@ public class UserController {
             return null;
         }//poner q salte una excepcion
         //si el formato no es corecto se crea igual el objeto añadir return
-        if (Character.isLetter(id.charAt(0))) {
-            return new ClientEmpresa(name, email, id, cashier);
-        } else {
+        if (Character.isLetter(id.charAt(id.length()-1))) {
             return new Client(name, email, id, cashier);
+        } else {
+            return new ClientEmpresa(name, email, id, cashier);
         }
     }
 

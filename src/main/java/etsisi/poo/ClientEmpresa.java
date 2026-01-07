@@ -9,7 +9,7 @@ public class ClientEmpresa extends Client{
     @Override
     public String toString() {
         return String.format(
-                "USER{identifier='%s', name='%s', email='%s', cash=%s}",
+                "COMPANY{identifier='%s', name='%s', email='%s', cash=%s}",
                 this.id, getName(), getEmail(), this.cashier.getID());
     }
 }
