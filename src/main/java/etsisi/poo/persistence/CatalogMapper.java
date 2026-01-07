@@ -51,7 +51,7 @@ public class CatalogMapper {
     public void toModel(CatalogDTO dto, Catalog catalog) {
         if (dto == null) return;
 
-        // services first (no dependency, but helps)
+        // servicios primero
         int maxServiceNumber = 0;
 
         if (dto.services != null) {
@@ -114,12 +114,26 @@ public class CatalogMapper {
                 );
 
             default: // REGULAR
+                if (p.category == null) {
+                    // Catálogo inconsistente entonces no cargamos este producto
+                    return null;
+                }
+
                 return new RegularProduct(
                         p.id,
                         p.name,
                         Category.valueOf(p.category),
                         p.price
                 );
+
+
+            /*default: // REGULAR
+                return new RegularProduct(
+                        p.id,
+                        p.name,
+                        Category.valueOf(p.category),
+                        p.price
+                );*/
         }
     }
 }

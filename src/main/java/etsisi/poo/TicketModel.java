@@ -72,7 +72,7 @@ public abstract class TicketModel<T extends TicketItem> {
         Iterator<ElementoTicket<T>> elementoTicket = elementos.iterator();
         while (elementoTicket.hasNext()) {
             ElementoTicket e = elementoTicket.next();
-            if (e.getItem().getId() == item.getId()) {
+            if (e.getItem().getId().equals(item.getId())) {  // antes: (e.getItem().getId() == item.getId())
                 elementoTicket.remove();
             }
         }

@@ -1,7 +1,7 @@
 package etsisi.poo.errors;
 
 public class ErrorHandler {
-    public static String format(Exception e) {
+    public static String format(Throwable  e) {
         if (e instanceof AppException) {
             return "[ERROR] " + e.getMessage() + "\n";
         }

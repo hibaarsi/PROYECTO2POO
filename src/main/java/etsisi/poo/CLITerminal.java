@@ -38,7 +38,6 @@ public class CLITerminal implements CLI {
         this.ticketController = new TicketController(userController);
         this.catalog = new Catalog();
         this.sc = new Scanner(System.in);  //NUEVO
-        registerCommands();
 
         PersistenceManager pm = new PersistenceManager(
                 new JsonUsersRepository(),
@@ -52,7 +51,6 @@ public class CLITerminal implements CLI {
             printString("[OK] Datos cargados.\n");
         } catch (PersistenceException e) {
             printString("[WARN] " + e.getMessage() + "\n");
-            // seguimos con datos vacíos
         }
 
         // SAVE al cerrar
@@ -60,9 +58,11 @@ public class CLITerminal implements CLI {
             try {
                 pm.saveAll(userController, ticketController, catalog);
             } catch (Exception e) {
-                // No hacemos nada: en shutdown no se puede recuperar (o podemos poner un System.err)
+                System.err.println("[WARN] No se pudieron guardar los datos al salir.");
             }
         }));
+
+        registerCommands();
     }
 
     public void run() {

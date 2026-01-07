@@ -47,6 +47,16 @@ public class PersistenceManager {
         } catch (PersistenceException e) {
             throw e;
         }
+        /*UsersDTO users = usersRepo.load();
+        usersMapper.toModel(users, uc);
+
+        CatalogDTO cat = catalogRepo.load();
+        catalogMapper.toModel(cat, catalog);
+
+        TicketsDTO tickets = ticketsRepo.load();
+        ticketsMapper.toModel(tickets, tc, uc, catalog);
+        */
+
     }
 
 

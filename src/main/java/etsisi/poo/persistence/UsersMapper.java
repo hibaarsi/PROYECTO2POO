@@ -1,6 +1,7 @@
 package etsisi.poo.persistence;
 
 import etsisi.poo.*;
+import etsisi.poo.errors.PersistenceException;
 import etsisi.poo.persistence.dto.*;
 
 public class UsersMapper {
@@ -49,14 +50,14 @@ public class UsersMapper {
             for (ClientDTO c : dto.clients) {
                 Cashier cashier = (c.cashierId != null) ? uc.getCashier(c.cashierId) : null;
 
-                // Si falta cashier, lo creamos sin asociar? (depende de vuestro diseño)
+                // Si falta cashier, lo creamos sin asociar?
                 // Como vuestro Client constructor requiere cashier, aquí lo más estable es:
                 if (cashier == null) {
-                    // Si quieres ser estricto, lanza excepción:
-                    // throw new PersistenceException("Cliente " + c.id + " referencia cajero inexistente " + c.cashierId);
-                    // Si quieres ser tolerante, puedes saltártelo:
-                    continue;
+                    throw new PersistenceException(
+                            "Cliente " + c.id + " referencia un cajero inexistente: " + c.cashierId
+                    );
                 }
+
 
                 Client client = "EMPRESA".equalsIgnoreCase(c.type)
                         ? new ClientEmpresa(c.name, c.email, c.id, cashier)

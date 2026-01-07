@@ -135,6 +135,41 @@ public class TicketsMapper {
         if (catalog == null || itemId == null) return null;
 
         if ("SERVICE".equalsIgnoreCase(itemType)) {
+            Service s = catalog.getService(itemId);
+            if (s == null) return null;
+            return new Service(s.getId(), s.getCategory(), s.getSmaxDate()); // COPIA
+        }
+
+        try {
+            int idInt = Integer.parseInt(itemId);
+            Product p = catalog.getProduct(idInt);
+            if (p == null) return null;
+
+            if (p instanceof EventProducts ep) {
+                return new EventProducts(
+                        idInt, ep.getName(), ep.getPrice(), ep.getEventDate(), ep.getMaxPeople(), ep.getEventType()
+                );
+            }
+            if (p instanceof ProductPersonalized pp) {
+                return new ProductPersonalized(
+                        idInt, pp.getName(), pp.getCategory(), pp.getBasePrice(), pp.getMaxPersonal()
+                );
+            }
+            if (p instanceof RegularProduct rp) {
+                return new RegularProduct(idInt, rp.getName(), rp.getCategory(), rp.getPrice());
+            }
+            return p; // fallback
+
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+
+   /* private TicketItem resolveItem(Catalog catalog, String itemType, String itemId) {
+        if (catalog == null || itemId == null) return null;
+
+        if ("SERVICE".equalsIgnoreCase(itemType)) {
             return catalog.getService(itemId);   // id tipo "1S"
         }
 
@@ -145,6 +180,6 @@ public class TicketsMapper {
         } catch (NumberFormatException e) {
             return null;
         }
-    }
+    }*/
 
 }

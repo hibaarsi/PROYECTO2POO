@@ -18,6 +18,8 @@ public class JsonTicketsRepository implements TicketsRepository {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final Path file = Paths.get("data", "tickets.json");
 
+    //Si los tickets se corrompen, arrancamos sin tickets pero sin bloquear el sistema.
+    //Porque perder usuarios o catálogo invalida el sistema, mientras que perder tickets es recuperable.
     @Override
     public TicketsDTO load() {
         ensureFolder();
