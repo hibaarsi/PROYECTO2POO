@@ -186,4 +186,24 @@ public abstract class TicketModel<T extends TicketItem> {
     public TicketStatus getTicketStatus() {
         return ticketStatus;
     }
+
+    public void setOpenDate(LocalDateTime openDate) {
+        this.openDate = openDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setTicketStatus(TicketStatus status) {
+        this.ticketStatus = status;
+    }
+
+    public LocalDateTime getOpenDate() {
+        return openDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
 }
