@@ -7,6 +7,10 @@ public class UserController {
     private Map<String, Client> clientMap;     // La clave es el DNI
     private Map<String, Cashier> cashierMap;   // La clave es el código UW
 
+    public Map<String, Client> getClientMap() { return clientMap; }
+    public Map<String, Cashier> getCashierMap() { return cashierMap; }
+
+
     public UserController() {
         this.clientMap = new HashMap<>();
         this.cashierMap = new HashMap<>();

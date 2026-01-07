@@ -33,8 +33,7 @@ public class CashAddCommand implements ICommand {
             if (cashier == null) return "Error creating cashier";
 
             userController.addCashier(cashier);
-            System.out.println(cashier);
-            return "cash add: ok\n";
+            return cashier.toString() + "\ncash add: ok\n";
 
         } else if (args.length == 4) {
 
@@ -44,8 +43,7 @@ public class CashAddCommand implements ICommand {
             if (cashier == null) return "Error creating cashier";
 
             userController.addCashier(cashier);
-            System.out.println(cashier);
-            return "cash add: ok\n";
+            return cashier.toString() + "\ncash add: ok\n";
         }
 
         return "cash add <UW> \"<name>\" <email>";

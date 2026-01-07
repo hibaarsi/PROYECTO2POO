@@ -3,6 +3,7 @@ package etsisi.poo.persistence.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import etsisi.poo.errors.PersistenceException;
 import etsisi.poo.persistence.dto.TicketsDTO;
 import etsisi.poo.persistence.repo.TicketsRepository;
 
@@ -42,7 +43,7 @@ public class JsonTicketsRepository implements TicketsRepository {
             Files.writeString(tmp, json, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             Files.move(tmp, file, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException e) {
-            return ; //llenar luego cuando tenga el paquete de errores
+            throw new PersistenceException("No se pudieron guardar los tickets. Cambios no persistidos.", e);
         }
     }
 

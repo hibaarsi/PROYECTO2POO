@@ -1,5 +1,7 @@
 package etsisi.poo;
 
+import etsisi.poo.errors.ValidationException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,43 +24,51 @@ public abstract class TicketModel<T extends TicketItem> {
     public TicketModel(String id) {
         this.id = id;
         this.elementos = new ArrayList<>();
-       // this.products = new ArrayList<>();
+        // this.products = new ArrayList<>();
         this.ticketStatus = TicketStatus.EMPTY;
         this.openDate = LocalDateTime.now();
     }
+
     protected abstract boolean canaddItem(T item);
+
     protected abstract boolean canclose();
+
     public List<ElementoTicket<T>> getElementos() {//para leer desde fuera las lineas del ticket
         return elementos;
     }
-    public void setPrinter(TicketPrinter printer){
+
+    public void setPrinter(TicketPrinter printer) {
         this.printer = printer;
     }
-    public TicketPrinter getPrinter(){
+
+    public TicketPrinter getPrinter() {
         return printer;
     }
-    public void print(){
+
+    public void print() {
         printer.print(this);
     }
-    public void addItem(T item, int quantity, ArrayList<String> personalizados){
-        if(isClosed()){
-            System.out.println("You cant add more items, its closed");
-            return;
+
+    public void addItem(T item, int quantity, ArrayList<String> personalizados) {
+        if (isClosed()) {
+            throw new ValidationException("No se pueden añadir items: el ticket está cerrado.");
         }
-        if(!canaddItem(item)){
-            System.out.println("You cant add this type of item");
-            return;
+
+        if (!canaddItem(item)) {
+            throw new ValidationException("No se puede añadir ese tipo de item a este ticket.");
         }
-        elementos.add(new ElementoTicket<>(item,quantity,personalizados));
-        if(ticketStatus== TicketStatus.EMPTY){
-            ticketStatus= TicketStatus.OPEN;
+
+        elementos.add(new ElementoTicket<>(item, quantity, personalizados));
+        if (ticketStatus == TicketStatus.EMPTY) {
+            ticketStatus = TicketStatus.OPEN;
         }
     }
-    public void removeItem(T item ){
+
+    public void removeItem(T item) {
         if (isClosed()) {
-            System.out.println("You cant add more products, its closed");
-            return;
+            throw new ValidationException("You cant add more products, its closed");
         }
+
         Iterator<ElementoTicket<T>> elementoTicket = elementos.iterator();
         while (elementoTicket.hasNext()) {
             ElementoTicket e = elementoTicket.next();
@@ -66,12 +76,10 @@ public abstract class TicketModel<T extends TicketItem> {
                 elementoTicket.remove();
             }
         }
-        if( elementos.isEmpty()){
-            ticketStatus= TicketStatus.EMPTY;
+
+        if (elementos.isEmpty()) {
+            ticketStatus = TicketStatus.EMPTY;
         }
-
-
-
     }
 
     public static String calculateID() {
@@ -155,10 +163,10 @@ public abstract class TicketModel<T extends TicketItem> {
     }*/
 
     public void close() {
-        if(!canclose()){
-            System.out.println("It cant close");
-            return;
+        if (!canclose()) {
+            throw new ValidationException("It cant close");
         }
+
         if (!isClosed()) {
             ticketStatus = TicketStatus.CLOSED;
             endDate = LocalDateTime.now();

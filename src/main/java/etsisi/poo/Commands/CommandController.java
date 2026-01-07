@@ -1,6 +1,9 @@
 package etsisi.poo.Commands;
 
 import etsisi.poo.CLITerminal;
+import etsisi.poo.errors.AppException;
+import etsisi.poo.errors.ErrorHandler;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,12 +33,17 @@ public class CommandController {
             return true;
         }
 
-        String result = command.execute(args);
-        if (result != null) {
-            cli.printString(result);
-        }
+        try {
+            String result = command.execute(args);
+            if (result != null) {
+                cli.printString(result);
+            }
+            return !primerArgumento.equals("exit");
 
-        return !primerArgumento.equals("exit");
+        } catch (Exception e) {
+            cli.printString(ErrorHandler.format(e));
+            return true;
+        }
     }
 
 
