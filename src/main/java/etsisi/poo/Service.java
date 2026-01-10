@@ -1,6 +1,8 @@
 package etsisi.poo;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Service implements TicketItem {
     private static int contador = 1;

@@ -2,6 +2,9 @@ package etsisi.poo.Commands.ProdCommands;
 
 import etsisi.poo.*;
 
+import java.time.LocalDate;
+
+
 public class ProdAddCommand extends AbstractProdAddCommand {
     public ProdAddCommand(Catalog catalog) {
         super(catalog);
@@ -16,7 +19,18 @@ public class ProdAddCommand extends AbstractProdAddCommand {
     public String getSegundoArgumento() {
         return "add";
     }
+    public String execute(String[] args) {
+        if( args.length==4) {
+            LocalDate date = LocalDate.parse(args[2]);
+            ServiceCategory category = ServiceCategory.valueOf(args[3].toUpperCase());
+            Service service = new Service(category, date);
+            catalog.addService(service);
+            return service.toString();
 
+        }
+        return super.execute(args);
+
+    }
     @Override
     protected Product createProduct(String[] args) {
         int id;

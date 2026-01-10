@@ -81,7 +81,6 @@ public abstract class TicketModel<T extends TicketItem> {
             ticketStatus = TicketStatus.EMPTY;
         }
     }
-
     public static String calculateID() {
         String baseId = LocalDateTime.now().format(DATE_FORMATTER);
         Random random = new Random();
