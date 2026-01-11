@@ -9,6 +9,9 @@ import etsisi.poo.persistence.repo.UsersRepository;
 import etsisi.poo.persistence.dto.CatalogDTO;
 import etsisi.poo.persistence.repo.CatalogRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PersistenceManager {
 
     private final UsersRepository usersRepo;
@@ -25,40 +28,32 @@ public class PersistenceManager {
         this.ticketsRepo = ticketsRepo;
     }
 
-    public void loadAll(UserController uc, TicketController tc, Catalog catalog) {
+    public List<String> loadAll(UserController uc, TicketController tc, Catalog catalog) {
+        List<String> warnings = new ArrayList<>();
+
         try {
             UsersDTO users = usersRepo.load();
             usersMapper.toModel(users, uc);
         } catch (PersistenceException e) {
-            // re-lanzar o dejar que el de arriba avise
-            throw e;
+            warnings.add(e.getMessage());
         }
 
         try {
             CatalogDTO cat = catalogRepo.load();
             catalogMapper.toModel(cat, catalog);
         } catch (PersistenceException e) {
-            throw e;
+            warnings.add(e.getMessage());
         }
 
         try {
             TicketsDTO tickets = ticketsRepo.load();
             ticketsMapper.toModel(tickets, tc, uc, catalog);
         } catch (PersistenceException e) {
-            throw e;
+            warnings.add(e.getMessage());
         }
-        /*UsersDTO users = usersRepo.load();
-        usersMapper.toModel(users, uc);
 
-        CatalogDTO cat = catalogRepo.load();
-        catalogMapper.toModel(cat, catalog);
-
-        TicketsDTO tickets = ticketsRepo.load();
-        ticketsMapper.toModel(tickets, tc, uc, catalog);
-        */
-
+        return warnings;
     }
-
 
     public void saveAll(UserController uc, TicketController tc, Catalog catalog) {
         UsersDTO users = usersMapper.fromModel(uc);

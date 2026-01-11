@@ -20,6 +20,13 @@ public class JsonTicketsRepository implements TicketsRepository {
 
     //Si los tickets se corrompen, arrancamos sin tickets pero sin bloquear el sistema.
     //Porque perder usuarios o catálogo invalida el sistema, mientras que perder tickets es recuperable.
+
+    //En el caso de tickets.json se ha decidido una política más tolerante:
+    //ante corrupción se realiza backup y se arranca sin tickets,
+    //sin mostrar warning, ya que los tickets no son datos críticos y pueden
+    //regenerarse durante la ejecución. Esto evita detener el flujo del programa
+    //por información no esencial.
+
     @Override
     public TicketsDTO load() {
         ensureFolder();

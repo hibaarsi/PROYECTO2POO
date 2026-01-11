@@ -19,6 +19,7 @@ import etsisi.poo.persistence.json.JsonUsersRepository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class CLITerminal implements CLI {
@@ -45,7 +46,7 @@ public class CLITerminal implements CLI {
                 new JsonTicketsRepository()
         );
 
-        // LOAD al arrancar
+        /*// LOAD al arrancar
         try {
             pm.loadAll(userController, ticketController, catalog);
             printString("[OK] Datos cargados.\n");
@@ -60,7 +61,31 @@ public class CLITerminal implements CLI {
             } catch (Exception e) {
                 System.err.println("[WARN] No se pudieron guardar los datos al salir.");
             }
+        }));*/
+
+        /*String warnings = pm.loadAll(userController, ticketController, catalog);
+        if (warnings != null) printString(warnings);
+        printString("[OK] Datos cargados.\n");*/
+
+        // LOAD al arrancar
+        List<String> warnings = pm.loadAll(userController, ticketController, catalog);
+
+        for (String w : warnings) {
+            printString("[WARN] " + w + "\n");
+        }
+
+        printString("[OK] Datos cargados.\n");
+
+        // SAVE al cerrar
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                pm.saveAll(userController, ticketController, catalog);
+            } catch (Exception e) {
+                // NO stacktrace
+                System.err.println("[WARN] No se pudieron guardar los datos al salir.");
+            }
         }));
+
 
         registerCommands();
     }
