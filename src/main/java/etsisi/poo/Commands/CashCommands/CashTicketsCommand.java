@@ -1,9 +1,11 @@
 package etsisi.poo.Commands.CashCommands;
 
+import etsisi.poo.CLITerminal;
 import etsisi.poo.Cashier;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.TicketModel;
 import etsisi.poo.UserController;
+import etsisi.poo.errors.ValidationException;
 
 public class CashTicketsCommand implements ICommand {
     private final UserController userController;
@@ -25,13 +27,13 @@ public class CashTicketsCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length != 3) {
-            return "Usage: cash tickets <UW>";
+            throw new ValidationException("Usage: cash tickets <UW>");
         }
         String uw = args[2];
         Cashier cashier = userController.getCashier(uw);
 
         if (cashier == null) {
-            return "Cashier not found";
+            throw new ValidationException("Cashier not found");
         }
 
         System.out.println("Tickets: ");

@@ -3,6 +3,7 @@ package etsisi.poo.Commands.ProdCommands;
 import etsisi.poo.Catalog;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.Product;
+import etsisi.poo.errors.ErrorHandler;
 
 import java.util.*;
 
@@ -25,25 +26,29 @@ public class ProdListCommand implements ICommand {
 
     @Override
     public String execute(String[] args) {
-        Map<Integer, Product> products = catalog.getProducts(); //copia del mapa de productos
+        try{
+            Map<Integer, Product> products = catalog.getProducts(); //copia del mapa de productos
 
-        if (products.isEmpty()) {
-            System.out.println("There are no products in the catalog.\n");
+            if (products.isEmpty()) {
+                return "There are no products in the catalog.\n";
 
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("Catalog:\n");
+
+            //el TreeMap ordena automáticamente las entradas por la clave (ID del producto).
+            TreeMap<Integer, Product> organizedProducts = new TreeMap<>(products);
+
+            for (Product p : organizedProducts.values()) {
+                sb.append("  ").append(p).append("\n");
+            }
+
+            sb.append("prod list: ok\n");
+            return sb.toString();
+        } catch (Exception e){
+            return ErrorHandler.format(e);
         }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("Catalog:\n");
-
-        //el TreeMap ordena automáticamente las entradas por la clave (ID del producto).
-        TreeMap<Integer, Product> organizedProducts = new TreeMap<>(products);
-
-        for (Product p : organizedProducts.values()) {
-            sb.append("  ").append(p).append("\n");
-        }
-
-        sb.append("prod list: ok\n");
-        return sb.toString();
 
         /*else {
             System.out.println("Catalog: ");
@@ -57,4 +62,5 @@ public class ProdListCommand implements ICommand {
         }
         return null;*/
     }
+
 }

@@ -1,6 +1,8 @@
 package etsisi.poo;
 
 
+import etsisi.poo.errors.ValidationException;
+
 import java.util.HashMap;
 
 import java.util.Map;
@@ -58,7 +60,7 @@ public class Catalog {
         return items.remove(id);
     }
 
-    public boolean updateProduct(int id, String field, String value) {
+    /*public boolean updateProduct(int id, String field, String value) {
         Product product = items.get(id);
         if (product == null) {
             return false;
@@ -94,6 +96,54 @@ public class Catalog {
 
             default:
                 return false; // campo desconocido
+        }
+    }*/
+    public void updateProduct(int id, String field, String value) {
+        Product product = items.get(id);
+
+        // 1. Validación de existencia
+        if (product == null) {
+            throw new ValidationException("Product with id " + id + " does not exist");
+        }
+
+        // 2. Selección de campo
+        switch (field.toUpperCase()) {
+            case "NAME":
+                if (value == null || value.trim().isEmpty()) {
+                    throw new ValidationException("Name cannot be empty");
+                }
+                product.setName(value.replace("\"", ""));
+                break;
+
+            case "CATEGORY":
+                // Validamos si este tipo de producto tiene categoría
+                if (!(product instanceof RegularProduct)) {
+                    throw new ValidationException("This product type does not support categories");
+                }
+
+                try {
+                    Category category = Category.valueOf(value.toUpperCase());
+                    ((RegularProduct) product).setCategory(category);
+                } catch (IllegalArgumentException e) {
+                    // Envolvemos el error técnico en uno legible
+                    throw new ValidationException("Invalid category: " + value);
+                }
+                break;
+
+            case "PRICE":
+                try {
+                    double price = Double.parseDouble(value);
+                    if (price <= 0) {
+                        throw new ValidationException("Enter a positive value for the price: " + value);
+                    }
+                    product.setPrice(price);
+                } catch (NumberFormatException e) {
+                    throw new ValidationException("Invalid price format: " + value);
+                }
+                break;
+
+            default:
+                throw new ValidationException("Unknown or uneditable field: " + field);
         }
     }
 

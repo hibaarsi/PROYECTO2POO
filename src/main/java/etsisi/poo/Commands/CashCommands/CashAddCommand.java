@@ -3,6 +3,7 @@ package etsisi.poo.Commands.CashCommands;
 import etsisi.poo.Cashier;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.UserController;
+import etsisi.poo.errors.ValidationException;
 
 public class CashAddCommand implements ICommand {
     private final UserController userController;
@@ -30,7 +31,7 @@ public class CashAddCommand implements ICommand {
             String email = args[4];
 
             Cashier cashier = userController.createCashier(name, email, uw);
-            if (cashier == null) return "Error creating cashier";
+            if (cashier == null) throw new ValidationException("Cashier could not be created");
 
             userController.addCashier(cashier);
             return cashier.toString() + "\ncash add: ok\n";
@@ -40,7 +41,7 @@ public class CashAddCommand implements ICommand {
             String name = args[2].replace("\"", "");
             String email = args[3];
             Cashier cashier = userController.createCashier(name, email, null);
-            if (cashier == null) return "Error creating cashier";
+            if (cashier == null) throw new ValidationException("Cashier could not be created");
 
             userController.addCashier(cashier);
             return cashier.toString() + "\ncash add: ok\n";

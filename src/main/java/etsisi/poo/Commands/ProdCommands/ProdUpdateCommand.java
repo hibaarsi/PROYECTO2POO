@@ -3,6 +3,9 @@ package etsisi.poo.Commands.ProdCommands;
 import etsisi.poo.Catalog;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.Product;
+import etsisi.poo.errors.AppException;
+import etsisi.poo.errors.ErrorHandler;
+import etsisi.poo.errors.ValidationException;
 
 public class ProdUpdateCommand implements ICommand {
     private final Catalog catalog;
@@ -21,8 +24,44 @@ public class ProdUpdateCommand implements ICommand {
         return "update";
     }
 
+
     @Override
     public String execute(String[] args) {
+        try {
+            // 1. Validar longitud
+            if (args.length != 5) {
+                throw new ValidationException("Usage: prod update <id> NAME|CATEGORY|PRICE <value>");
+            }
+
+            // 2. Parsear ID
+            int id;
+            try {
+                id = Integer.parseInt(args[2]);
+            } catch (NumberFormatException e) {
+                throw new ValidationException("Invalid ID format: " + args[2]);
+            }
+
+            String field = args[3].toUpperCase();
+            String value = args[4].replace("\"", "");
+
+
+            catalog.updateProduct(id, field, value);
+
+            // 4. Si llegamos aquí, es que NO ha saltado ninguna excepción. Éxito.
+            // Recuperamos el producto ya actualizado para mostrarlo
+            Product product = catalog.getProduct(id);
+            return product + "\nprod update: ok\n";
+
+
+        } catch (AppException e) {
+            // Atrapa ValidationException (ID, campos, producto no encontrado)
+            return ErrorHandler.format(e);
+
+        } catch (Exception e) {
+            return ErrorHandler.format(e);
+        }
+    }
+    /*public String execute(String[] args) {
         if (args.length != 5) {
             return "Not valid";
         }
@@ -65,7 +104,7 @@ public class ProdUpdateCommand implements ICommand {
                     default:
                         System.out.printf("Unknown field: %s%n", field);
                 }
-            }*/
+            }
         } catch (NumberFormatException e) {
             return "Invalid ID format";
 
@@ -73,5 +112,5 @@ public class ProdUpdateCommand implements ICommand {
             return "Invalid argument";
         }
 
-    }
+    }*/
 }

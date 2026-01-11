@@ -2,6 +2,7 @@ package etsisi.poo.Commands.CashCommands;
 
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.UserController;
+import etsisi.poo.errors.ValidationException;
 
 public class CashListCommand implements ICommand {
     private final UserController userController;
@@ -23,7 +24,7 @@ public class CashListCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length != 2) {
-            return "cash list";
+            throw new ValidationException("Use: cash list");
         }
         userController.listCashier();
         return "cash list: ok\n";

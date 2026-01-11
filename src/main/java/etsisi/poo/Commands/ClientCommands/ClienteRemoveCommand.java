@@ -3,6 +3,7 @@ package etsisi.poo.Commands.ClientCommands;
 import etsisi.poo.Client;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.UserController;
+import etsisi.poo.errors.ValidationException;
 
 public class ClienteRemoveCommand implements ICommand {
     private final UserController userController;
@@ -24,13 +25,13 @@ public class ClienteRemoveCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length != 3) {
-            return "client remove <DNI>";
+            throw new ValidationException("Use: client remove <DNI>");
         }
         String dni = args[2];
         Client client = userController.getClient(dni);
 
         if (client == null) {
-            return "Client not found";
+            throw new ValidationException("Client does not exist.");
         }
 
         userController.removeClient(dni);

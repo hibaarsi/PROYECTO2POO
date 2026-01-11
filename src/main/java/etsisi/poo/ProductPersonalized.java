@@ -1,5 +1,7 @@
 package etsisi.poo;
 
+import etsisi.poo.errors.ValidationException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public class ProductPersonalized extends RegularProduct {
     public ProductPersonalized(int id, String name, Category category, double price, int maxPersonal) {
         super(id, name, category, price);
         if (maxPersonal < 1) {
-            System.out.println("maxPersonal must be >= 1");
+            throw new ValidationException("maxPersonal must be >= 1");
         }
         this.maxPersonal = maxPersonal;
     }
@@ -31,7 +33,7 @@ public class ProductPersonalized extends RegularProduct {
         int nTexts = (texts == null) ? 0 : texts.size();
 
         if (nTexts > maxPersonal) {
-            System.out.println("Too many customization texts. Use max: " + maxPersonal);
+            throw new ValidationException("Too many customization texts. Use max: " + maxPersonal);
         }
 
         double multiplier = 1 + (0.10 * nTexts);

@@ -4,6 +4,7 @@ import etsisi.poo.Cashier;
 import etsisi.poo.Client;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.UserController;
+import etsisi.poo.errors.ValidationException;
 
 public class ClientAddCommand implements ICommand {
     private final UserController userController;
@@ -25,7 +26,7 @@ public class ClientAddCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length != 6) {
-            return "Use: client add \"<name>\" <DNI|NIF> <email> <UW_cashier>";
+            throw new ValidationException("Use: client add \"<name>\" <DNI|NIF> <email> <UW_cashier>");
         }
         String name = args[2].replace("\"", "");
         String id= args[3];
@@ -34,14 +35,14 @@ public class ClientAddCommand implements ICommand {
 
         Cashier cashier = userController.getCashier(uw);
         if (cashier == null) {
-            return "Cashier not found";
+            throw new ValidationException ("Cashier not found");
         }
 
         Client client = userController.createClient(name, email, id, cashier);
 
-        if (client == null) {
-            return "Client could not be created";
-        }
+        //if (client == null) {
+        //    throw new ValidationException("Client could not be created.");
+        //}
 
         userController.addClient(client);
         System.out.println(client);

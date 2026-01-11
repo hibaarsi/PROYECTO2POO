@@ -4,6 +4,7 @@ import etsisi.poo.Cashier;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.TicketController;
 import etsisi.poo.UserController;
+import etsisi.poo.errors.ValidationException;
 
 public class CashRemoveCommand implements ICommand {
     private final UserController userController;
@@ -27,13 +28,13 @@ public class CashRemoveCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length != 3) {
-            return "Usage: cash remove <id>";
+            throw new ValidationException("Usage: cash remove <id>");
         }
         String cashierId = args[2];
         Cashier cashier = userController.getCashier(cashierId);
 
         if (cashier == null) {
-            return "Cajero no encontrado";
+            throw new ValidationException("Cajero no encontrado");
         }
 
         ticketController.removeTicketsFromCashier(cashier);

@@ -1,7 +1,10 @@
 package etsisi.poo.Commands.ProdCommands;
 
 import etsisi.poo.*;
+import etsisi.poo.errors.ValidationException;
+
 import java.time.*;
+import java.time.format.DateTimeParseException;
 
 public class ProdAddEventCommand extends AbstractProdAddCommand {
     private final EventType eventType;
@@ -25,10 +28,19 @@ public class ProdAddEventCommand extends AbstractProdAddCommand {
 
     @Override
     protected Product createProduct(String[] args) {
+        if (args.length < 7) {
+            throw new ValidationException("Usage: prod <addFood | addMeeting> <id> <name> <price> <date> <maxPeople>");
+        }
+
         int id = parseId(args[2]);
         String name = parseName(args[3]);
         double price = parsePrice(args[4]);
-        LocalDate date = LocalDate.parse(args[5]);
+        LocalDate date;
+        try {
+            date = LocalDate.parse(args[5]);
+        } catch (DateTimeParseException e) {
+            throw new ValidationException("Invalid date: " + args[5]);
+        }
         int maxPeople = Integer.parseInt(args[6]);
 
         LocalDateTime dateTime = date.atTime(LocalTime.MAX);

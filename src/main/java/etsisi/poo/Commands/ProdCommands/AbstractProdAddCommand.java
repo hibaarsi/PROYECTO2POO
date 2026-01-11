@@ -3,6 +3,9 @@ package etsisi.poo.Commands.ProdCommands;
 import etsisi.poo.Catalog;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.Product;
+import etsisi.poo.errors.AppException;
+import etsisi.poo.errors.ErrorHandler;
+import etsisi.poo.errors.ValidationException;
 
 public abstract class AbstractProdAddCommand implements ICommand {
     protected final Catalog catalog;
@@ -11,27 +14,31 @@ public abstract class AbstractProdAddCommand implements ICommand {
         this.catalog = catalog;
     }
 
-    protected int parseId(String idStr) { //protected para que solo se use en este paquete
+    protected int parseId(String idStr) {
         try {
             return Integer.parseInt(idStr);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid ID: must be an integer.");
-            return -1;
+            // Transformamos el error técnico en uno de negocio
+            throw new ValidationException("Invalid ID format: " + idStr);
         }
     }
 
     protected String parseName(String nameStr) {
+        if (nameStr == null || nameStr.isEmpty()) {
+            throw new ValidationException("Name cannot be empty");
+        }
         return nameStr.replace("\"", "");
     }
 
     protected double parsePrice(String priceStr) {
         try {
             double value = Double.parseDouble(priceStr);
-            if (value <= 0) throw new IllegalArgumentException("Price must be positive.");
+            // Esta validación también la hace el constructor de Product,
+            // pero no está de más aquí.
+            if (value <= 0) throw new ValidationException("Price must be positive.");
             return value;
         } catch (NumberFormatException e) {
-            System.out.println("Invalid price: must be a number.");
-            return -1;
+            throw new ValidationException("Invalid price format: " + priceStr);
         }
     }
 
@@ -52,9 +59,13 @@ public abstract class AbstractProdAddCommand implements ICommand {
                         getSegundoArgumento() + " ->Error adding product";
             }
 
+        } catch (AppException e) {
+            // CAPTURA CENTRALIZADA: Validaciones,
+            return ErrorHandler.format(e);
+
         } catch (Exception e) {
-            return "Error processing ->" + getPrimerArgumento() + " " +
-                    getSegundoArgumento() + " ->" + e.getMessage();
+            // Captura de emergencia para bugs imprevistos
+            return ErrorHandler.format(e);
         }
 
            /* if (ok) {

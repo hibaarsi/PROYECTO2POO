@@ -1,5 +1,7 @@
 package etsisi.poo;
 
+import etsisi.poo.errors.ValidationException;
+
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,16 +27,14 @@ public class UserController {
     }
 
     public Client createClient(String name, String email, String id, Cashier cashier) {
-        if (clientMap.containsKey(id)) {
-            System.out.println("Ya hay un cliente con ese DNI");
+        if (clientMap.containsKey(id)) {throw new ValidationException("Ya hay un cliente con ese DNI");
         }
 
         if (!cashierMap.containsKey(cashier.getID())) {
-            System.out.println("El cajero no existe");
+            throw new ValidationException("El cajero no existe");
         }
         if (!properFormatID(id)) {
-            System.out.println("El ID no es correcto");
-            return null;
+            throw new ValidationException("El ID no es correcto");
         }//poner q salte una excepcion
         //si el formato no es corecto se crea igual el objeto añadir return
         if (Character.isLetter(id.charAt(id.length()-1))) {
