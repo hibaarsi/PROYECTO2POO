@@ -64,7 +64,7 @@ public class TicketAddCommand implements ICommand {
             }
            boolean add= ticketController.addItemToTicket(ticketId, product, quantity, personalizations);
             if(!add) return "Product not added";
-           // ticketController.printTicketInfo(ticket);
+            ticket.print();
         } catch (NumberFormatException e) {
             return "Invalid number format for product ID or quantity";
         } catch (Exception e) {
