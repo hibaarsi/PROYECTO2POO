@@ -72,10 +72,11 @@ public class EventProducts extends Product implements IEventProduct {
 
         return String.format(
                 java.util.Locale.US,
-                "{class:%s, id:%d, name:'%s', price:0.0, date of Event:%s, max people allowed:%d}",
+                "{class:%s, id:%d, name:'%s', price:%.1f, date of Event:%s, max people allowed:%d}",
                 eventType.getDisplayName(),
                 id,
                 name.replace("\"", ""),
+                price,
                 eventDate.toLocalDate(),
                 maxPeople
         );
