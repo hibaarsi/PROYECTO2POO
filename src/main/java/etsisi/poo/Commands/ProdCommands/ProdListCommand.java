@@ -26,7 +26,8 @@ public class ProdListCommand implements ICommand {
 
     @Override
     public String execute(String[] args) {
-        try{
+        // De momento comento el try-catch porque creo que no es necesario
+        //try{
             Map<Integer, Product> products = catalog.getProducts(); //copia del mapa de productos
 
             if (products.isEmpty()) {
@@ -46,10 +47,9 @@ public class ProdListCommand implements ICommand {
 
             sb.append("prod list: ok\n");
             return sb.toString();
-        } catch (Exception e){
-            return ErrorHandler.format(e);
-        }
-
+        //} catch (Exception e){
+        //    return ErrorHandler.format(e);
+        //
         /*else {
             System.out.println("Catalog: ");
             //el TreeMap ordena automáticamente las entradas por la clave (ID del producto).

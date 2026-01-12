@@ -27,7 +27,7 @@ public class ProdUpdateCommand implements ICommand {
 
     @Override
     public String execute(String[] args) {
-        try {
+        //try {
             // 1. Validar longitud
             if (args.length != 5) {
                 throw new ValidationException("Usage: prod update <id> NAME|CATEGORY|PRICE <value>");
@@ -53,13 +53,13 @@ public class ProdUpdateCommand implements ICommand {
             return product + "\nprod update: ok\n";
 
 
-        } catch (AppException e) {
+        //} catch (AppException e) {
             // Atrapa ValidationException (ID, campos, producto no encontrado)
-            return ErrorHandler.format(e);
+            //return ErrorHandler.format(e);
 
-        } catch (Exception e) {
-            return ErrorHandler.format(e);
-        }
+        //} catch (Exception e) {
+        //    return ErrorHandler.format(e);
+        //}
     }
     /*public String execute(String[] args) {
         if (args.length != 5) {

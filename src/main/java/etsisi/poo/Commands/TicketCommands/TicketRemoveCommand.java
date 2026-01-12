@@ -2,6 +2,7 @@ package etsisi.poo.Commands.TicketCommands;
 
 import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
+import etsisi.poo.errors.ValidationException;
 
 public class TicketRemoveCommand implements ICommand {
     private final TicketController ticketController;
@@ -26,25 +27,25 @@ public class TicketRemoveCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length < 5) {
-            return "Usage: ticket remove <ticketId> <cashierId> <productId>";
+            throw new ValidationException("Usage: ticket remove <ticketId> <cashierId> <productId>");
         }
         String ticketId = args[2];
         String cashierId = args[3];
         int productId = Integer.parseInt(args[4]);
         TicketModel ticket = ticketController.getTicket(ticketId);
         if (ticket == null) {
-            return "Ticket ID not found";
+            throw new ValidationException("Ticket ID not found");
         }
         Cashier cashier = userController.getCashier(cashierId);
         if (cashier == null) {
-            return "Cashier ID not found";
+            throw new ValidationException("Cashier ID not found");
         }
         if (!ticketController.cashierHasTicket(cashierId, ticket)) {
-            return "This ticket does not belong to cashier " + cashierId;
+            throw new ValidationException("This ticket does not belong to cashier " + cashierId);
         }
         Product product = catalog.getProduct(productId);
         if (product == null) {
-            return "Product ID not found";
+            throw new ValidationException("Product ID not found");
         }
         boolean remove=ticketController.removeProductFromTicket(ticketId,product);
         if(!remove) return "Product not removed";

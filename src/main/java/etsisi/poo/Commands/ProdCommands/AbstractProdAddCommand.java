@@ -48,7 +48,10 @@ public abstract class AbstractProdAddCommand implements ICommand {
 
     @Override
     public String execute(String[] args) {
-        try {
+        // Comento este para quitarle el try-catch y que solo se lanze la excepción.
+        // Se capturan en el startCommand de CommandController
+
+        /*try {
             Product product = createProduct(args);
             boolean ok = catalog.addProduct(product);
 
@@ -66,6 +69,15 @@ public abstract class AbstractProdAddCommand implements ICommand {
         } catch (Exception e) {
             // Captura de emergencia para bugs imprevistos
             return ErrorHandler.format(e);
+        }*/
+        Product product = createProduct(args);
+        boolean ok = catalog.addProduct(product);
+
+        if (ok) {
+            return product + "\n" + getOkMessage();
+        } else {
+            throw new ValidationException("Error processing -> " + getPrimerArgumento() + " " +
+                    getSegundoArgumento() + " -> Error adding product (ID might be already registered)");
         }
 
            /* if (ok) {

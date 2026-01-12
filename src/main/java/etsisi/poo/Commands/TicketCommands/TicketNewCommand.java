@@ -2,6 +2,7 @@ package etsisi.poo.Commands.TicketCommands;
 
 import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
+import etsisi.poo.errors.ValidationException;
 
 public class TicketNewCommand implements ICommand {
     private final TicketController ticketController;
@@ -25,7 +26,7 @@ public class TicketNewCommand implements ICommand {
         String clientID;
         String tipo = "p";
         if (args.length != 4 && args.length != 5 && args.length != 6) {
-            return "Usage: ticket new [<id>] <cashId> < userId> -[c|p|s] (default -p option)";
+            throw new ValidationException("Usage: ticket new [<id>] <cashId> < userId> -[c|p|s] (default -p option)");
         }
         try {
             if (args.length == 4) {

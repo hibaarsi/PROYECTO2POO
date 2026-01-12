@@ -2,6 +2,7 @@ package etsisi.poo.Commands.TicketCommands;
 
 import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
+import etsisi.poo.errors.ValidationException;
 
 public class TicketPrintCommand implements ICommand {
    //no imprime directamente, elige quien imprime el ticket
@@ -22,7 +23,7 @@ public class TicketPrintCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args == null || args.length < 4) {
-            return "Usage: ticket print <ticketId> <cashierId>";
+            throw new ValidationException("Usage: ticket print <ticketId> <cashierId>");
         }
 
             String ticketId = args[2];

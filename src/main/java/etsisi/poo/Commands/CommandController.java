@@ -40,7 +40,12 @@ public class CommandController {
             }
             return !primerArgumento.equals("exit");
 
+        } catch (AppException e){
+            // Captura de las validaciones
+            cli.printString(ErrorHandler.format(e));
+            return true;
         } catch (Exception e) {
+            // Captura para imprevistos
             cli.printString(ErrorHandler.format(e));
             return true;
         }

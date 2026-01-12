@@ -2,6 +2,7 @@ package etsisi.poo.Commands.ClientCommands;
 
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.UserController;
+import etsisi.poo.errors.ValidationException;
 
 public class ClientListCommand implements ICommand {
     private final UserController userController;
@@ -23,7 +24,7 @@ public class ClientListCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length != 2) {
-            return "Use: client list";
+            throw new ValidationException("Use: client list");
         }
 
         userController.listClients();

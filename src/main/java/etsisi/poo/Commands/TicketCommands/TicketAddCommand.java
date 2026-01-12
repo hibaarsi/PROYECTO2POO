@@ -2,6 +2,7 @@ package etsisi.poo.Commands.TicketCommands;
 
 import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
+import etsisi.poo.errors.ValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class TicketAddCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length < 6) {
-            return "Usage: ticket add <ticketId> <cashierId> <productId> <quantity> [--p personalization1 --p personalization2 ...]";
+            throw new ValidationException("Usage: ticket add <ticketId> <cashierId> <productId> <quantity> [--p personalization1 --p personalization2 ...]");
         }
         try {
             String ticketId = args[2];
