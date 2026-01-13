@@ -53,7 +53,7 @@ public class ProdAddCommand extends AbstractProdAddCommand {
                 Service service = new Service(category, date);
                 catalog.addService(service);
 
-                return service.toString();
+                return service.toString() + "\nprod add: ok\n";
 
             } catch (AppException e) {
                 return ErrorHandler.format(e);
@@ -75,7 +75,7 @@ public class ProdAddCommand extends AbstractProdAddCommand {
         Category category;
         double price;
 
-        if(args.length ==5){
+        if(args.length==5 || args.length==6){
             id = 0; // O generar ID automático
             name = parseName(args[2]);
             try {
@@ -84,7 +84,10 @@ public class ProdAddCommand extends AbstractProdAddCommand {
                 throw new ValidationException("Invalid category: " + args[3]);
             }
             price = parsePrice(args[4]);
-
+            if(args.length==6){
+                int maxPersonal = parseId(args[5]);
+                return new ProductPersonalized(id, name, category, price, maxPersonal);
+            }
             return new RegularProduct(id, name, category, price);
         }else{
             // Caso con ID explícito
