@@ -33,7 +33,7 @@ public class TicketAddCommand implements ICommand {
         try {
             String ticketId = args[2];
             String cashierId = args[3];
-            int productId = Integer.parseInt(args[4]);
+            String productId = args[4];
             int quantity = Integer.parseInt(args[5]);
 
             ArrayList<String> personalizations = new ArrayList<>();
@@ -46,7 +46,7 @@ public class TicketAddCommand implements ICommand {
                 }
             }
 
-           TicketItem product = catalog.getProduct(productId);
+           TicketItem product = catalog.getItem(productId);
             if (product == null) {
                 return "Product not found";
             }

@@ -28,7 +28,18 @@ public class Catalog {
 
         return true;
     }
-
+    public TicketItem getItem(String id){
+        Service service=services.get(id);
+        if(service !=null){
+            return service;
+        }
+        try{
+            int productId= Integer.parseInt(id);
+            return items.get(productId);
+        }catch(NumberFormatException e){
+            return null;
+        }
+    }
     public boolean addService(Service service) {
         if (services.size() >= MAX_ELEMENTS) {
             return false;
