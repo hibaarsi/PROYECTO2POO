@@ -114,27 +114,26 @@ public class ProdAddCommand extends AbstractProdAddCommand {
         }
 
         int currentIndex = 2; // Empezamos a leer desde el tercer argumento
-        int id = 0; // 0 indica autogenerado
+        int id;
+        //int id = 0; // 0 indica autogenerado
 
-        // 2. DETECTAR SI HAY ID EXPLÍCITO
-        // Estrategia: Si el argumento NO empieza por comillas, asumimos que es el ID numérico.
-        // Si empieza por comillas, asumimos que es el Nombre y el ID es automático.
+        // DETECTAR SI HAY ID EXPLÍCITO
         if (!args[currentIndex].startsWith("\"")) {
-
-            // Usamos tu método parseId o Integer.parseInt directamente
             id = parseId(args[currentIndex]);
             currentIndex++; // Avanzamos el índice porque hemos consumido un argumento
-
+        }else {
+            // si es el primer elemento sin id se le asigna el 0 y al resto el siguiente libre
+            id = catalog.generateNextFreeProductId();
         }
         // Si empezaba por comillas, no entramos al if, id se queda en 0 y currentIndex sigue en 2.
 
-        // 3. VERIFICAR QUE QUEDAN ARGUMENTOS SUFICIENTES
+        // VERIFICAR QUE QUEDAN ARGUMENTOS SUFICIENTES
         // Independientemente del ID, necesitamos obligatoriamente: Name, Category, Price (3 argumentos)
         if ((args.length - currentIndex) < 3) {
             throw new ValidationException("Missing mandatory arguments: Name, Category or Price.");
         }
 
-        // 4. LEER DATOS OBLIGATORIOS (Usando currentIndex)
+        // LEER DATOS OBLIGATORIOS (Usando currentIndex)
         String name = parseName(args[currentIndex++]);
 
         Category category;
@@ -146,16 +145,14 @@ public class ProdAddCommand extends AbstractProdAddCommand {
 
         double price = parsePrice(args[currentIndex++]);
 
-        // 5. DETECTAR PERSONALIZACIÓN (OPCIONAL)
+        // DETECTAR PERSONALIZACIÓN (OPCIONAL)
         // Si todavía quedan argumentos después de leer el precio, significa que hay maxPersonal
         // Esto cumple con la restricción de que productos personalizados tienen maxPers [cite: 17, 69]
         if (currentIndex < args.length) {
-            // Asumimos que el último argumento es maxPersonal
             int maxPersonal = Integer.parseInt(args[currentIndex]);
             return new ProductPersonalized(id, name, category, price, maxPersonal);
         }
 
-        // Si no quedan argumentos, es un producto normal
         return new RegularProduct(id, name, category, price);
     }
 

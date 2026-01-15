@@ -162,4 +162,13 @@ public class Catalog {
         return new HashMap<>(services);
     }
 
+    public int generateNextFreeProductId() {
+        int id = 0;
+        while (items.containsKey(id)) {
+            id++;
+        }
+        return id;
+    }
+
+
 }
