@@ -1,5 +1,7 @@
 package etsisi.poo;
 
+import etsisi.poo.errors.ValidationException;
+
 import java.util.*;
 
 public class TicketController {
@@ -40,7 +42,7 @@ public class TicketController {
         }
     }
 
-    public TicketModel<?> newTicket(String ticketID, String cashierID, String userID, String tipo) throws Exception {
+    /*public TicketModel<?> newTicket(String ticketID, String cashierID, String userID, String tipo) throws Exception {
         Cashier cashier = userController.getCashier(cashierID);
         if (cashier == null) {
             throw new Exception("No se encontro el ID del cajero.");
@@ -89,6 +91,74 @@ public class TicketController {
         cashier.addTicket(ticket);
         client.addTicket(ticket);
 
+        ticketToCashier.put(finalID, cashierID);
+        ticketToClient.put(finalID, userID);
+
+        return ticket;
+    }*/
+    // Asegúrate de que este método lance Exception o ValidationException según tu arquitectura
+    public TicketModel<?> newTicket(String ticketID, String cashierID, String userID, String tipo) throws Exception {
+
+        // 1. Validaciones previas de existencia
+        Cashier cashier = userController.getCashier(cashierID);
+        if (cashier == null) {
+            throw new ValidationException("Cashier not found: " + cashierID);
+        }
+
+        Client client = userController.getClient(userID);
+        if (client == null) {
+            throw new ValidationException("Client not found: " + userID);
+        }
+
+        if (tipo == null || tipo.isEmpty()) {
+            tipo = "p";
+        }
+
+        // 2. Gestión del ID del Ticket
+        String finalID = ticketID;
+        if (finalID == null) {
+            finalID = generateUniqueId(); // Tu método generador
+        } else if (tickets.containsKey(finalID)) {
+            throw new ValidationException("Ticket ID already exists: " + finalID);
+        }
+
+        TicketModel<?> ticket;
+
+        // 3. SWITCH CORREGIDO
+        switch (tipo.toLowerCase()) {
+            case "s": // SERVICIO
+                if (!(client instanceof ClientEmpresa)) {
+                    throw new ValidationException("Solo los clientes de empresa pueden crear tickets de servicio (-s)");
+                }
+                ticket = new TicketEmpresaService(finalID);
+                // Asigna el printer específico que corregimos antes
+                ticket.setPrinter(new TicketServicePrinter());
+                break;
+
+            case "c": // COMBINADO / MIX (Corregido de "m" a "c")
+                if (!(client instanceof ClientEmpresa)) { // Asumiendo que Mix también requiere Empresa
+                    throw new ValidationException("Solo los clientes de empresa pueden crear tickets combinados (-c)");
+                }
+                ticket = new TicketEmpresaMix(finalID);
+                // Asigna el printer específico
+                ticket.setPrinter(new TicketMixPrinter());
+                break;
+
+            case "p": // PRODUCTO (Default)
+            default:
+                // Ticket común para cualquier cliente
+                ticket = new TicketCommon(finalID);
+                // Asigna el printer estándar con Locale.US
+                ticket.setPrinter(new TicketProductoPrinter());
+                break;
+        }
+
+        // 4. Registro y vinculaciones
+        tickets.put(finalID, ticket);
+        cashier.addTicket(ticket);
+        client.addTicket(ticket);
+
+        // Mapas de relación inversa (si los usas para búsquedas rápidas)
         ticketToCashier.put(finalID, cashierID);
         ticketToClient.put(finalID, userID);
 
