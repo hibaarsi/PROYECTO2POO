@@ -41,7 +41,11 @@ public class JsonTicketsRepository implements TicketsRepository {
         try {
             String json = Files.readString(file);
             TicketsDTO dto = gson.fromJson(json, TicketsDTO.class);
-            return (dto != null) ? dto : new TicketsDTO();
+            if (dto != null) {
+                return dto;
+            }
+            return new TicketsDTO();
+
         } catch (JsonSyntaxException e) {
             log.warn("tickets.json corrupto: se hará backup y se arrancará sin tickets", e);
             backupCorrupted();

@@ -28,7 +28,10 @@ public class JsonUsersRepository implements UsersRepository {
         try {
             String json = Files.readString(file);
             UsersDTO dto = gson.fromJson(json, UsersDTO.class);
-            return (dto != null) ? dto : new UsersDTO();
+            if (dto != null) {
+                return dto;
+            }
+            return new UsersDTO();
 
         } catch (JsonSyntaxException e) {
             log.warn("users.json corrupto", e);
