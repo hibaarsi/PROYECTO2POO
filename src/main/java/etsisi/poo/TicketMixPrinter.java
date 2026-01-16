@@ -1,89 +1,92 @@
 package etsisi.poo;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
-public class TicketMixPrinter implements TicketPrinter{
-    //  En estos casos, cuando se realice la
-    //impresión, los servicios no aparecerán con precio y se aplicara un plus de 15% de descuento en
-    //los productos por cada servicio contratado
+public class TicketMixPrinter implements TicketPrinter {
+
     @Override
-    public void print(TicketModel<?> ticket){
-        if (ticket==null){
+    public void print(TicketModel<?> ticket) {
+        if (ticket == null) {
             System.out.println("Ticket null");
             return;
         }
+
         List<? extends ElementoTicket<?>> elementos = ticket.getElementos();
         if (elementos == null || elementos.isEmpty()) {
             System.out.println("Its empty");
             return;
         }
-        //para contar los servicios
-        int numServicios=0;
-        for (ElementoTicket<?>e:elementos){
-            if (e.getItem()instanceof Service){
-                numServicios+=e.getQuantity();
+
+        // 1) Separar productos y servicios + contar número de servicios (con cantidad)
+        List<Object> services = new ArrayList<>();
+        List<ElementoTicket<?>> products = new ArrayList<>();
+        int numServicios = 0;
+
+        for (ElementoTicket<?> e : elementos) {
+            Object it = e.getItem();
+
+            // para que funcione con la clase service
+            if (it instanceof Service) {
+                services.add(it);
+                numServicios += e.getQuantity();
+            } else if (it.getClass().getSimpleName().equals("ProductService")) {
+                services.add(it);
+                numServicios += e.getQuantity();
+            } else {
+                products.add((ElementoTicket<?>) e);
             }
         }
-        double extraRate=Math.min(1.0,0.15*numServicios);
+
+
+        // 2) Extra descuento por servicios: 15% por servicio (capado a 100%)
+        double extraRate = Math.min(1.0, 0.15 * numServicios);
+
         System.out.println("Ticket : " + ticket.getId());
-        System.out.println("Type   : COMPANY COMBINED");
-        System.out.println("Extra discount (services): " + Math.round(extraRate * 100) + "%");
-        System.out.println();
 
-        //se separan los prod y los servicios en 2 array
-        List<ElementoTicket<?>> lineasProductos = new ArrayList<>();
-        List<ElementoTicket<?>> lineasServicios = new ArrayList<>();
-        for (ElementoTicket<?> e : elementos) {
-            if (e.getItem() instanceof Product) lineasProductos.add(e);
-            else if (e.getItem() instanceof Service) lineasServicios.add(e);
+        // SERVICES
+        if (!services.isEmpty()) {
+            System.out.println("Services Included: ");
+            for (Object s : services) {
+                System.out.println("  " + s);
+            }
         }
 
-        System.out.println("PRODUCTS");
-        lineasProductos.sort(Comparator.comparing(
-                e -> ((Product) e.getItem()).getName(),
-                String.CASE_INSENSITIVE_ORDER
-        ));
+        // PRODUCT INCLUDED
+        if (!products.isEmpty()) {
+            System.out.println("Product Included");
 
-        double totalPrice = 0.0;
-        double totalDiscount = 0.0;
+            double totalPrice = 0.0;
 
-        for (ElementoTicket<?> e : lineasProductos) {
-            Product p = (Product) e.getItem();
-            int cantidad = e.getQuantity();
+            // En el output bueno se imprime “1 línea” del Meeting ya con precio total y actual people.
+            // Por eso el FIX REAL debe estar en addItem (EventProducts). Aquí solo sumamos.
+            for (ElementoTicket<?> e : products) {
+                Object it = e.getItem();
+                int qty = e.getQuantity();
 
-            double unitPrice = p.getPrice();
+                if (it instanceof Product p) {
+                    // Si es producto normal, puede haber qty>1, pero en el ejemplo es Meeting ya normalizado a qty=1
+                    for (int i = 0; i < qty; i++) {
+                        System.out.println("  " + p);
+                    }
+                    totalPrice += p.getPrice() * qty;
+                } else {
+                    // si no es Product, lo imprimimos tal cual
+                    for (int i = 0; i < qty; i++) {
+                        System.out.println("  " + it);
+                    }
+                }
+            }
 
-            double unitDiscount = unitPrice * extraRate;
+            double extraDiscount = totalPrice * extraRate;
+            double totalDiscount = extraDiscount;
+            double finalPrice = totalPrice - totalDiscount;
 
-            double linePrice = unitPrice * cantidad;
-            double lineDiscount = unitDiscount * cantidad;
-
-            totalPrice += linePrice;
-            totalDiscount += lineDiscount;
-
-            System.out.printf("  %s x%d  unit: %.3f  disc: %.3f  line: %.3f%n",
-                    p.getName(), cantidad, unitPrice, unitDiscount, (linePrice - lineDiscount));
-
-
+            System.out.printf(Locale.US, "  Total price: %.1f%n", totalPrice);
+            System.out.printf(Locale.US,
+                    "  Extra Discount from services:%.1f **discount -%.1f%n",
+                    extraDiscount, extraDiscount);
+            System.out.printf(Locale.US, "  Total discount: %.1f%n", totalDiscount);
+            System.out.printf(Locale.US, "  Final Price: %.1f%n", finalPrice);
         }
-        double finalPrice = totalPrice - totalDiscount;
-        //servicios
-        System.out.println();
-        System.out.println("SERVICES (no price)");
-        for (ElementoTicket<?> e : lineasServicios) {
-            Service s = (Service) e.getItem();
-
-
-            System.out.printf("  %s  %s  maxUse:%s%n",
-                    s.getId(),
-                    s.getCategory(),
-                    s.getSmaxDate());
-        }
-        System.out.println();
-        System.out.printf("  Total price: %.3f%n", totalPrice);
-        System.out.printf("  Total discount: %.3f%n", totalDiscount);
-        System.out.printf("  Final Price: %.3f%n", finalPrice);
     }
 }

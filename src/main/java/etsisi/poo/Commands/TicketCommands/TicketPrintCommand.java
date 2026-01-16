@@ -47,6 +47,8 @@ public class TicketPrintCommand implements ICommand {
             } // solo se decide quien va a imprimir
 
             */
+
+
             TicketPrinter printer = ticket.getPrinter();
             if(printer==null){
                 return "Printer not found";
