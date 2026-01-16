@@ -46,4 +46,6 @@ public class HelpCommand implements ICommand {
                 .append(HELP_DISCOUNTS);
         return sb.toString();
     }
+
+    //
 }
