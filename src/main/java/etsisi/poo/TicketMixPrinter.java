@@ -1,5 +1,6 @@
 package etsisi.poo;
 
+
 import java.util.*;
 
 public class TicketMixPrinter implements TicketPrinter {
