@@ -1,0 +1,133 @@
+{
+  "tickets": {
+    "212121": {
+      "id": "212121",
+      "status": "OPEN",
+      "openDate": "2026-01-16T11:59:18.415556300",
+      "tipo": "p",
+      "cashierId": "UW1234567",
+      "clientId": "55630667S",
+      "items": [
+        {
+          "itemType": "PRODUCT",
+          "itemId": "1",
+          "quantity": 20,
+          "personalizados": []
+        }
+      ]
+    },
+    "212123": {
+      "id": "212123",
+      "status": "OPEN",
+      "openDate": "2026-01-16T11:59:18.428286",
+      "tipo": "p",
+      "cashierId": "UW1234567",
+      "clientId": "98948334B",
+      "items": [
+        {
+          "itemType": "PRODUCT",
+          "itemId": "2",
+          "quantity": 3,
+          "personalizados": []
+        },
+        {
+          "itemType": "PRODUCT",
+          "itemId": "1",
+          "quantity": 20,
+          "personalizados": []
+        }
+      ]
+    },
+    "26-01-16-11:59-76640": {
+      "id": "26-01-16-11:59-76640",
+      "status": "EMPTY",
+      "openDate": "2026-01-16T11:59:18.414553400",
+      "tipo": "p",
+      "cashierId": "UW1234567",
+      "clientId": "55630667S",
+      "items": []
+    },
+    "212130": {
+      "id": "212130",
+      "status": "OPEN",
+      "openDate": "2026-01-16T11:59:18.458925100",
+      "tipo": "p",
+      "cashierId": "UW1234567",
+      "clientId": "B12345674",
+      "items": [
+        {
+          "itemType": "PRODUCT",
+          "itemId": "23456",
+          "quantity": 20,
+          "personalizados": []
+        }
+      ]
+    },
+    "212128": {
+      "id": "212128",
+      "status": "OPEN",
+      "openDate": "2026-01-16T11:59:18.451726800",
+      "tipo": "p",
+      "cashierId": "UW1234567",
+      "clientId": "98948334B",
+      "items": [
+        {
+          "itemType": "PRODUCT",
+          "itemId": "6",
+          "quantity": 3,
+          "personalizados": [
+            "red",
+            "blue"
+          ]
+        },
+        {
+          "itemType": "PRODUCT",
+          "itemId": "5",
+          "quantity": 1,
+          "personalizados": []
+        },
+        {
+          "itemType": "PRODUCT",
+          "itemId": "5",
+          "quantity": 3,
+          "personalizados": [
+            "red",
+            "blue",
+            "green"
+          ]
+        }
+      ]
+    },
+    "212129": {
+      "id": "212129",
+      "status": "EMPTY",
+      "openDate": "2026-01-16T11:59:18.457824200",
+      "tipo": "p",
+      "cashierId": "UW1234567",
+      "clientId": "B12345674",
+      "items": []
+    },
+    "212127": {
+      "id": "212127",
+      "status": "OPEN",
+      "openDate": "2026-01-16T11:59:18.447674",
+      "tipo": "p",
+      "cashierId": "UW1234567",
+      "clientId": "98948334B",
+      "items": [
+        {
+          "itemType": "PRODUCT",
+          "itemId": "2",
+          "quantity": 3,
+          "personalizados": []
+        },
+        {
+          "itemType": "PRODUCT",
+          "itemId": "23456",
+          "quantity": 20,
+          "personalizados": []
+        }
+      ]
+    }
+  }
+}

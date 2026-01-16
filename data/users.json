@@ -1,0 +1,37 @@
+{
+  "cashiers": [
+    {
+      "id": "UW4506433",
+      "name": "pepecurro2",
+      "email": "pepe0@upm.es"
+    },
+    {
+      "id": "UW1234567",
+      "name": "pepecurro3",
+      "email": "pepe0@upm.es"
+    }
+  ],
+  "clients": [
+    {
+      "id": "B12345674",
+      "name": "pepe2",
+      "email": "pepe5@upm.es",
+      "type": "EMPRESA",
+      "cashierId": "UW1234567"
+    },
+    {
+      "id": "55630667S",
+      "name": "Pepe3",
+      "email": "pepe1@upm.es",
+      "type": "NORMAL",
+      "cashierId": "UW1234567"
+    },
+    {
+      "id": "98948334B",
+      "name": "Pepe2",
+      "email": "pepe2@upm.es",
+      "type": "NORMAL",
+      "cashierId": "UW1234567"
+    }
+  ]
+}
