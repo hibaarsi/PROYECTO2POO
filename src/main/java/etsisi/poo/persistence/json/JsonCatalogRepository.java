@@ -28,7 +28,10 @@ public class JsonCatalogRepository implements CatalogRepository {
         try {
             String json = Files.readString(file);
             CatalogDTO dto = gson.fromJson(json, CatalogDTO.class);
-            return (dto != null) ? dto : new CatalogDTO();
+            if (dto != null) {
+                return dto;
+            }
+            return new CatalogDTO();
 
         } catch (JsonSyntaxException e) {
             log.warn("catalog.json corrupto", e);
