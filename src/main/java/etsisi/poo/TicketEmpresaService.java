@@ -7,7 +7,8 @@ public class TicketEmpresaService extends TicketModel<Service>{
 
     @Override
     protected boolean canaddItem(Service item) {
-        return !item.isExpired();
+        //return item.isExpired();
+        return true;
     }
 
     @Override
