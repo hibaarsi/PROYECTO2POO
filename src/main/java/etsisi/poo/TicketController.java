@@ -139,12 +139,37 @@ public class TicketController {
         return sortedTickets;
     }
 
-    public void listAllTickets() {
+   /* public void listAllTickets() {
+        StringBuilder sb = new StringBuilder("Ticket List:\n");
+
+        List<TicketModel<? extends TicketItem>> tickets = getTicketsSortedByCashierId();
+        for (TicketModel<? extends TicketItem> t : tickets) {
+            sb.append("  ")
+                    .append(t.getId())
+                    .append(" - ")
+                    .append(t.getTicketStatus())
+                    .append("\n");
+        }
+        return sb.toString();
         System.out.println("Ticket List:");
         List<TicketModel<? extends TicketItem>> tickets = getTicketsSortedByCashierId();
         for (TicketModel<? extends TicketItem> t : tickets) {
             System.out.println("  " + t.getId() + " - " + t.getTicketStatus());
         }
+    }*/
+
+    public String listAllTickets() {
+        StringBuilder sb = new StringBuilder("Ticket List:\n");
+
+        List<TicketModel<? extends TicketItem>> tickets = getTicketsSortedByCashierId();
+        for (TicketModel<? extends TicketItem> t : tickets) {
+            sb.append("  ")
+                    .append(t.getId())
+                    .append(" - ")
+                    .append(t.getTicketStatus())
+                    .append("\n");
+        }
+        return sb.toString();
     }
 
     public Map<String, TicketModel<? extends TicketItem>> getTicketsMap() {
@@ -167,7 +192,7 @@ public class TicketController {
         return ticketToClient.get(ticketId);
     }
 
-    public void setTicketOwner(String ticketId, String cashierId, String clientId){
+    public void setTicketOwner(String ticketId, String cashierId, String clientId) {
         ticketToCashier.put(ticketId, cashierId);
         ticketToClient.put(ticketId, clientId);
     }

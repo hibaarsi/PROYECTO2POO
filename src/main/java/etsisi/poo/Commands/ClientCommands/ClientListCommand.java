@@ -27,7 +27,7 @@ public class ClientListCommand implements ICommand {
             throw new ValidationException("Use: client list");
         }
 
-        userController.listClients();
-        return "client list: ok\n";
+        //userController.listClients();
+        return userController.listClients() + "client list: ok\n";
     }
 }

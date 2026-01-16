@@ -41,7 +41,7 @@ public class HelpCommand implements ICommand {
                 .append(SPACE).append("prod remove <id>\n")
                 .append(SPACE).append("help\n")
                 .append(SPACE).append("echo \"<texto>\"\n")
-                .append(SPACE).append("exit\n\n\n")
+                .append(SPACE).append("exit\n\n")
                 .append(HELP_CATEGORIES)
                 .append(HELP_DISCOUNTS);
         return sb.toString();

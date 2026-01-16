@@ -34,6 +34,7 @@ public abstract class Product implements TicketItem {
     public String getId() {
         return String.valueOf(id);
     } //mirar
+
     public String getName() {
         return name;
     }
@@ -47,8 +48,12 @@ public abstract class Product implements TicketItem {
     }
 
     public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) System.out.println(NOT_EMPTY);
-        if (name.length() > MAX_NAME_LENGTH) System.out.println(SIZE_LIMIT_MESSAGE);
+        if (name == null || name.trim().isEmpty()) //System.out.println(NOT_EMPTY);
+            throw new ValidationException(NOT_EMPTY);
+
+        if (name.length() > MAX_NAME_LENGTH) //System.out.println(SIZE_LIMIT_MESSAGE);
+            throw new ValidationException(SIZE_LIMIT_MESSAGE);
+
         this.name = name.trim();
     }
 

@@ -13,10 +13,12 @@ public class TicketListCommand implements ICommand {
     public TicketListCommand(TicketController ticketController) {
         this.ticketController = ticketController;
     }
+
     @Override
     public String getPrimerArgumento() {
         return "ticket";
     }
+
     @Override
     public String getSegundoArgumento() {
         return "list";
@@ -24,14 +26,12 @@ public class TicketListCommand implements ICommand {
 
     @Override
     public String execute(String[] args) {
-        if (args.length != 2){
+        if (args.length != 2) {
             throw new ValidationException("Usage: ticket list");
         }
-        ticketController.listAllTickets();
-        return "ticket list: ok\n";
+        //ticketController.listAllTickets();
+        return ticketController.listAllTickets() + "ticket list: ok\n";
     }
-
-
 
 
 }

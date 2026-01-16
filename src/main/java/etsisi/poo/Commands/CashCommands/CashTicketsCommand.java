@@ -36,6 +36,25 @@ public class CashTicketsCommand implements ICommand {
             throw new ValidationException("Cashier not found");
         }
 
+        StringBuilder result = new StringBuilder();
+        result.append("Tickets:\n");
+
+        if (cashier.getTickets().isEmpty()) {
+            return result.append("cash tickets: ok\n").toString();
+        }
+
+        for (TicketModel t : cashier.getTickets()) {
+            result.append("  ")
+                    .append(t.getId())
+                    .append("->")
+                    .append(t.getTicketStatus())
+                    .append("\n");
+        }
+
+        result.append("cash tickets: ok\n");
+        return result.toString();
+
+        /*
         System.out.println("Tickets: ");
         if (cashier.getTickets().isEmpty()) {
             return "cash tickets: ok\n";
@@ -44,6 +63,6 @@ public class CashTicketsCommand implements ICommand {
             System.out.println("  " + t.getId() + "->" + t.getTicketStatus());
         }
 
-        return "cash tickets: ok\n";
+        return "cash tickets: ok\n";*/
     }
 }

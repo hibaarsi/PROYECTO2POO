@@ -26,7 +26,7 @@ public class CashListCommand implements ICommand {
         if (args.length != 2) {
             throw new ValidationException("Use: cash list");
         }
-        userController.listCashier();
-        return "cash list: ok\n";
+        //userController.listCashier();
+        return userController.listCashier() + "cash list: ok\n";
     }
 }

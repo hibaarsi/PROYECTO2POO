@@ -16,7 +16,8 @@ public class EchoCommand implements ICommand {
     @Override
     public String execute(String[] args) {
         if (args.length > 1) {
-            return String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+            String text = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+            return text + "\n";
 
             /*String text = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
             CLI.printFromString(text);

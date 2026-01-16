@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 public class CLITerminal implements CLI {
 
     private CommandController commandController;
@@ -31,6 +35,8 @@ public class CLITerminal implements CLI {
     private final static String PROMPT = "tUPM> ";
 
     private final Scanner sc;   //NUEVO
+
+    private static final Logger log = LoggerFactory.getLogger(CLITerminal.class);
 
 
     public CLITerminal() {
@@ -74,7 +80,12 @@ public class CLITerminal implements CLI {
             printString("[WARN] " + w + "\n");
         }
 
-        printString("[OK] Datos cargados.\n");
+        // log tecnico
+        log.info("[OK] Datos cargados. - Arrancando aplicación\n");
+
+        // Usuario
+        printString("Welcome to the ticket module App.");
+        printString("Ticket module. Type 'help' to see commands.");
 
         // SAVE al cerrar
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -82,7 +93,8 @@ public class CLITerminal implements CLI {
                 pm.saveAll(userController, ticketController, catalog);
             } catch (Exception e) {
                 // NO stacktrace
-                System.err.println("[WARN] No se pudieron guardar los datos al salir.");
+                printString("[WARN] No se pudieron guardar los datos al salir.\n");
+                log.warn("No se pudieron guardar los datos al salir", e);
             }
         }));
 
@@ -123,7 +135,7 @@ public class CLITerminal implements CLI {
             while ((command = bufreader.readLine()) != null) {
                 //System.out.print(PROMPT);
                 //System.out.println(command);
-                printString(PROMPT + command + "\n"); //NUEVO
+                printString(PROMPT + command); //NUEVO
                 String[] args = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 String primerArgumento = args[0];
                 String segundoArgumento;

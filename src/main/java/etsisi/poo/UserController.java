@@ -74,12 +74,20 @@ public class UserController {
         }
     }
 
-    public void listClients() {
+    /*public void listClients() {
         List<Client> sortedClients = getClientsSortedByName();
         System.out.println("Client:");
         for (Client c : sortedClients) {
             System.out.println(c);
         }
+    }*/
+
+    public String listClients() {
+        StringBuilder sb = new StringBuilder("Client:\n");
+        for (Client c : getClientsSortedByName()) {
+            sb.append("  ").append(c).append("\n");
+        }
+        return sb.toString();
     }
 
     public List<Client> getClientsSortedByName() {
@@ -112,19 +120,28 @@ public class UserController {
     // Este removeCashier solo borra el cajero del mapa sin borrar los tickets asociados
     public void removeCashier(String UW) {
         if (!cashierMap.containsKey(UW)) {
-            System.out.println("El cajero no está registrado.");
+            //System.out.println("El cajero no está registrado.");
+            throw new ValidationException("El cajero no está registrado.");
         } else {
             cashierMap.remove(UW);
         }
     }
 
 
-    public void listCashier() {
+    /*public void listCashier() {
         List<Cashier> sortedCashier = getCashiersSortedByName();
         System.out.println("Cash: ");
         for (Cashier c : sortedCashier) {
             System.out.println(" " + c);
         }
+    }*/
+
+    public String listCashier() {
+        StringBuilder sb = new StringBuilder("Cash:\n");
+        for (Cashier c : getCashiersSortedByName()) {
+            sb.append("  ").append(c).append("\n");
+        }
+        return sb.toString();
     }
 
     public List<Cashier> getCashiersSortedByName() {

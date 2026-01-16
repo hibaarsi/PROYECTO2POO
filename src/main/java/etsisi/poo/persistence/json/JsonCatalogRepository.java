@@ -10,10 +10,15 @@ import etsisi.poo.persistence.repo.CatalogRepository;
 import java.io.IOException;
 import java.nio.file.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JsonCatalogRepository implements CatalogRepository {
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final Path file = Paths.get("data", "catalog.json");
+
+    private static final Logger log = LoggerFactory.getLogger(JsonCatalogRepository.class);
 
     @Override
     public CatalogDTO load() {
@@ -26,6 +31,7 @@ public class JsonCatalogRepository implements CatalogRepository {
             return (dto != null) ? dto : new CatalogDTO();
 
         } catch (JsonSyntaxException e) {
+            log.warn("catalog.json corrupto", e);
             Path bak = backupCorruptedWithTimestamp();
             throw new PersistenceException(
                     "catalog.json está corrupto. Se ha renombrado a " + bak.getFileName()
@@ -33,6 +39,7 @@ public class JsonCatalogRepository implements CatalogRepository {
             );
 
         } catch (IOException e) {
+            log.error("No se pudo leer catalog.json", e);
             throw new PersistenceException("No se pudo leer catalog.json. Se arrancará sin catálogo.");
         }
     }
@@ -53,13 +60,16 @@ public class JsonCatalogRepository implements CatalogRepository {
             }
 
         } catch (IOException e) {
+            log.error("Error guardando catalog.json", e);
             throw new PersistenceException("No se pudo guardar catalog.json. Cambios no persistidos.", e);
         }
     }
 
     private void ensureFolder() {
         try { Files.createDirectories(file.getParent()); }
-        catch (IOException ignored) { }
+        catch (IOException e) {
+            log.warn("No se pudo crear el directorio de datos", e);
+        }
     }
 
     private Path backupCorruptedWithTimestamp() {
@@ -68,7 +78,8 @@ public class JsonCatalogRepository implements CatalogRepository {
                     .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
             Path bak = Paths.get("data", "catalog.json.corrupt-" + ts + ".bak");
             return Files.move(file, bak, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            log.error("No se pudo renombrar catalog.json corrupto", e);
             return Paths.get("data", "catalog.json.bak");
         }
     }

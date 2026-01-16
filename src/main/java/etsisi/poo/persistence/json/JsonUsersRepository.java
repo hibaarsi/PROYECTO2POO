@@ -10,10 +10,15 @@ import etsisi.poo.persistence.repo.UsersRepository;
 import java.io.IOException;
 import java.nio.file.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JsonUsersRepository implements UsersRepository {
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final Path file = Paths.get("data", "users.json");
+
+    private static final Logger log = LoggerFactory.getLogger(JsonUsersRepository.class);
 
     @Override
     public UsersDTO load() {
@@ -26,6 +31,7 @@ public class JsonUsersRepository implements UsersRepository {
             return (dto != null) ? dto : new UsersDTO();
 
         } catch (JsonSyntaxException e) {
+            log.warn("users.json corrupto", e);
             Path bak = backupCorruptedWithTimestamp();
             throw new PersistenceException(
                     "users.json está corrupto. Se ha renombrado a " + bak.getFileName()
@@ -33,6 +39,7 @@ public class JsonUsersRepository implements UsersRepository {
             );
 
         } catch (IOException e) {
+            log.error("No se pudo leer users.json", e);
             throw new PersistenceException("No se pudo leer users.json. Se arrancará sin usuarios.");
         }
     }
@@ -53,13 +60,16 @@ public class JsonUsersRepository implements UsersRepository {
             }
 
         } catch (IOException e) {
+            log.error("Error guardando users.json", e);
             throw new PersistenceException("No se pudieron guardar los usuarios. Cambios no persistidos.", e);
         }
     }
 
     private void ensureFolder() {
         try { Files.createDirectories(file.getParent()); }
-        catch (IOException ignored) { }
+        catch (IOException e) {
+            log.warn("No se pudo crear el directorio de datos", e);
+        }
     }
 
     private Path backupCorruptedWithTimestamp() {
@@ -68,7 +78,8 @@ public class JsonUsersRepository implements UsersRepository {
                     .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
             Path bak = Paths.get("data", "users.json.corrupt-" + ts + ".bak");
             return Files.move(file, bak, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            log.error("No se pudo renombrar users.json corrupto", e);
             return Paths.get("data", "users.json.bak");
         }
     }

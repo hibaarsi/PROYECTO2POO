@@ -13,7 +13,6 @@ public class ExitCommand implements ICommand {
 
     @Override
     public String execute(String[] args) {
-        System.out.println("Closing application.\nGoodbye!\n");
-        return null;
+        return "Closing application.\nGoodbye!\n";
     }
 }
