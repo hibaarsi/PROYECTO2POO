@@ -1,9 +1,11 @@
 package etsisi.poo.Commands.ProdCommands;
 
-import etsisi.poo.*;
 import etsisi.poo.errors.AppException;
 import etsisi.poo.errors.ErrorHandler;
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.products.*;
+import etsisi.poo.products.services.Service;
+import etsisi.poo.products.services.ServiceCategory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

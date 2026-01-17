@@ -1,4 +1,4 @@
-package etsisi.poo;
+package etsisi.poo.tickets;
 
 public interface TicketItem {
     String getId();

@@ -1,6 +1,8 @@
-package etsisi.poo;
+package etsisi.poo.tickets;
 
-public class TicketCommon extends TicketModel<Product>{
+import etsisi.poo.products.Product;
+
+public class TicketCommon extends TicketModel<Product> {
     public TicketCommon(String id){
         super(id);
     }

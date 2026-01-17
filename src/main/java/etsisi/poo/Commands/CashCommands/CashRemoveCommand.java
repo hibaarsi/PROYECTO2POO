@@ -1,9 +1,9 @@
 package etsisi.poo.Commands.CashCommands;
 
-import etsisi.poo.Cashier;
+import etsisi.poo.users.Cashier;
 import etsisi.poo.Commands.ICommand;
-import etsisi.poo.TicketController;
-import etsisi.poo.UserController;
+import etsisi.poo.tickets.TicketController;
+import etsisi.poo.users.UserController;
 import etsisi.poo.errors.ValidationException;
 
 public class CashRemoveCommand implements ICommand {

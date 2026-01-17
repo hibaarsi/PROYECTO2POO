@@ -1,8 +1,11 @@
 package etsisi.poo.persistence;
 
-import etsisi.poo.*;
 import etsisi.poo.errors.PersistenceException;
 import etsisi.poo.persistence.dto.*;
+import etsisi.poo.users.Cashier;
+import etsisi.poo.users.Client;
+import etsisi.poo.users.ClientEmpresa;
+import etsisi.poo.users.UserController;
 
 public class UsersMapper {
 

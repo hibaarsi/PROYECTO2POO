@@ -1,6 +1,6 @@
-package etsisi.poo;
+package etsisi.poo.users;
 
-public class ClientEmpresa extends Client{
+public class ClientEmpresa extends Client {
     public ClientEmpresa(String name, String email, String nif, Cashier cashier) {
         super(name, email, nif, cashier); // el id es el nif ya que es un cliente empresa
     }

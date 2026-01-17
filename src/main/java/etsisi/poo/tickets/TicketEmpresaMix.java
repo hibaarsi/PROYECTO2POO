@@ -1,6 +1,9 @@
-package etsisi.poo;
+package etsisi.poo.tickets;
 
-public class TicketEmpresaMix extends TicketModel<TicketItem>{ // esta contiene los dos, productos y servicios)
+import etsisi.poo.products.Product;
+import etsisi.poo.products.services.Service;
+
+public class TicketEmpresaMix extends TicketModel<TicketItem> { // esta contiene los dos, productos y servicios)
     public TicketEmpresaMix(String id){
         super(id);
     }

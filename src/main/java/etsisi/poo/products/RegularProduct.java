@@ -1,4 +1,4 @@
-package etsisi.poo;
+package etsisi.poo.products;
 
 public class RegularProduct extends Product {
     private Category category;

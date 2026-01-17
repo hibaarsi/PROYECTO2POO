@@ -1,6 +1,7 @@
-package etsisi.poo;
+package etsisi.poo.tickets;
 
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.printers.TicketPrinter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

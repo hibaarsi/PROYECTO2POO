@@ -1,6 +1,5 @@
 package etsisi.poo.persistence;
 
-import etsisi.poo.*;
 import etsisi.poo.errors.PersistenceException;
 import etsisi.poo.persistence.dto.TicketsDTO;
 import etsisi.poo.persistence.dto.UsersDTO;
@@ -8,6 +7,9 @@ import etsisi.poo.persistence.repo.TicketsRepository;
 import etsisi.poo.persistence.repo.UsersRepository;
 import etsisi.poo.persistence.dto.CatalogDTO;
 import etsisi.poo.persistence.repo.CatalogRepository;
+import etsisi.poo.products.Catalog;
+import etsisi.poo.tickets.TicketController;
+import etsisi.poo.users.UserController;
 
 import java.util.ArrayList;
 import java.util.List;

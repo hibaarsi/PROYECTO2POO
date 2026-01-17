@@ -1,6 +1,7 @@
-package etsisi.poo;
+package etsisi.poo.users;
 
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.tickets.TicketModel;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;

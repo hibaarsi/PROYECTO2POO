@@ -1,7 +1,7 @@
 package etsisi.poo.Commands.CashCommands;
 
 import etsisi.poo.Commands.ICommand;
-import etsisi.poo.UserController;
+import etsisi.poo.users.UserController;
 import etsisi.poo.errors.ValidationException;
 
 public class CashListCommand implements ICommand {

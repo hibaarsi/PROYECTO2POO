@@ -1,4 +1,4 @@
-package etsisi.poo;
+package etsisi.poo.products;
 
 import java.time.Duration;
 

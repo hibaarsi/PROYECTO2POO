@@ -1,8 +1,8 @@
 package etsisi.poo.Commands.ClientCommands;
 
-import etsisi.poo.Client;
+import etsisi.poo.users.Client;
 import etsisi.poo.Commands.ICommand;
-import etsisi.poo.UserController;
+import etsisi.poo.users.UserController;
 import etsisi.poo.errors.ValidationException;
 
 public class ClienteRemoveCommand implements ICommand {

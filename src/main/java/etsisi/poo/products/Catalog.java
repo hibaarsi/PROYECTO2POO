@@ -1,7 +1,9 @@
-package etsisi.poo;
+package etsisi.poo.products;
 
 
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.products.services.Service;
+import etsisi.poo.tickets.TicketItem;
 
 import java.util.HashMap;
 

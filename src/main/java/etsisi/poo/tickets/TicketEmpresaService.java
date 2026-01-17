@@ -1,13 +1,21 @@
-package etsisi.poo;
+package etsisi.poo.tickets;
 
-public class TicketEmpresaService extends TicketModel<Service>{
+import etsisi.poo.products.services.Service;
+import etsisi.poo.errors.ValidationException;
+
+public class TicketEmpresaService extends TicketModel<Service> {
     public TicketEmpresaService(String id){
         super(id);
     }
 
     @Override
     protected boolean canaddItem(Service item) {
-        return item.isExpired();
+       if(!item.isExpired()) {
+           return true;
+       }else{
+           throw new ValidationException("El servicio " + item.getId() + " ha expirado");
+       }
+
 
     }
 

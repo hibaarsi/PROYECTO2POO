@@ -1,8 +1,10 @@
 package etsisi.poo.Commands.TicketCommands;
 
-import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.printers.TicketPrinter;
+import etsisi.poo.tickets.TicketController;
+import etsisi.poo.tickets.TicketModel;
 
 public class TicketPrintCommand implements ICommand {
    //no imprime directamente, elige quien imprime el ticket

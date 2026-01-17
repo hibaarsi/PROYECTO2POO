@@ -1,4 +1,8 @@
-package etsisi.poo;
+package etsisi.poo.printers;
+
+import etsisi.poo.tickets.ElementoTicket;
+import etsisi.poo.products.services.Service;
+import etsisi.poo.tickets.TicketModel;
 
 public class TicketServicePrinter implements TicketPrinter {
    //estrategia de impresion
@@ -22,8 +26,8 @@ public class TicketServicePrinter implements TicketPrinter {
        for (ElementoTicket<?> e : ticket.getElementos()) {
            int cantidad =e.getQuantity();
            Service s = (Service) e.getItem();
-
-           System.out.printf("  %s %s x%d maxUse:%s%n", s.getId(), s.getCategory(), cantidad, s.getSmaxDate());
+           s.toString();
+          // System.out.printf("  %s %s  expiration:%s%n", s.getId(), s.getCategory(), s.getSmaxDate());
        }
    }
 }

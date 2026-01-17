@@ -1,8 +1,9 @@
-package etsisi.poo;
+package etsisi.poo.products.services;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import etsisi.poo.tickets.TicketItem;
+
+import java.time.*;
+import java.util.Date;
 
 public class Service implements TicketItem {
     private static int contador = 1;
@@ -56,7 +57,10 @@ public class Service implements TicketItem {
 
     @Override
     public String toString() {
-        return String.format("{class:Service, id:%s, category:%s, smaxDate:%s}",
-                id, category, smaxDate);
+        ZonedDateTime dt= smaxDate.atStartOfDay(ZoneId.systemDefault());
+        Date date = Date.from(dt.toInstant());
+        return String.format("{class:ProductService, id:%s, category:%s, expiration:%s}",
+                id.replace("S", ""), category,date);
+                //!isExpired() ? smaxDate : "Expired");
     }
 }

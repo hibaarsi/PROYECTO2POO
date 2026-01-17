@@ -1,8 +1,10 @@
 package etsisi.poo.Commands.TicketCommands;
 
-import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.tickets.TicketController;
+import etsisi.poo.tickets.TicketItem;
+import etsisi.poo.tickets.TicketModel;
 
 public class TicketNewCommand implements ICommand {
     private final TicketController ticketController;

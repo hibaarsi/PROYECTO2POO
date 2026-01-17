@@ -1,7 +1,7 @@
-package etsisi.poo;
+package etsisi.poo.products;
 
-import etsisi.poo.errors.AppException;
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.tickets.TicketItem;
 
 public abstract class Product implements TicketItem {
     //Constantes públicas

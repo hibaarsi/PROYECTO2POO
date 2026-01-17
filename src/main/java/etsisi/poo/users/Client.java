@@ -1,7 +1,8 @@
-package etsisi.poo;
+package etsisi.poo.users;
+
+import etsisi.poo.tickets.TicketModel;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Client extends Users {

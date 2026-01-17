@@ -1,4 +1,10 @@
-package etsisi.poo;
+package etsisi.poo.printers;
+
+import etsisi.poo.products.Category;
+import etsisi.poo.products.Product;
+import etsisi.poo.products.RegularProduct;
+import etsisi.poo.tickets.ElementoTicket;
+import etsisi.poo.tickets.TicketModel;
 
 import java.util.HashMap;
 import java.util.List;

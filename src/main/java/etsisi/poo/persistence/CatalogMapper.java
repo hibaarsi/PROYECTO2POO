@@ -1,7 +1,9 @@
 package etsisi.poo.persistence;
 
-import etsisi.poo.*;
 import etsisi.poo.persistence.dto.*;
+import etsisi.poo.products.*;
+import etsisi.poo.products.services.Service;
+import etsisi.poo.products.services.ServiceCategory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

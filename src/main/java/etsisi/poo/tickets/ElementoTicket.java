@@ -1,7 +1,6 @@
-package etsisi.poo;
+package etsisi.poo.tickets;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ElementoTicket<T extends TicketItem> {
     private final T item;

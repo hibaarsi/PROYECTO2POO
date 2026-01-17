@@ -1,11 +1,18 @@
 package etsisi.poo.Commands.TicketCommands;
 
-import etsisi.poo.*;
 import etsisi.poo.Commands.ICommand;
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.products.Catalog;
+import etsisi.poo.products.EventProducts;
+import etsisi.poo.tickets.ElementoTicket;
+import etsisi.poo.tickets.TicketController;
+import etsisi.poo.tickets.TicketItem;
+import etsisi.poo.tickets.TicketModel;
+import etsisi.poo.users.Cashier;
+import etsisi.poo.users.UserController;
 
 import java.util.ArrayList;
-import java.util.List;
+
 //REVISAR
 public class TicketAddCommand implements ICommand {
     private final TicketController ticketController;

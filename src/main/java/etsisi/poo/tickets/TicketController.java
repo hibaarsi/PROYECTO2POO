@@ -1,6 +1,13 @@
-package etsisi.poo;
+package etsisi.poo.tickets;
 
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.printers.TicketMixPrinter;
+import etsisi.poo.printers.TicketProductoPrinter;
+import etsisi.poo.printers.TicketServicePrinter;
+import etsisi.poo.users.Cashier;
+import etsisi.poo.users.Client;
+import etsisi.poo.users.ClientEmpresa;
+import etsisi.poo.users.UserController;
 
 import java.util.*;
 

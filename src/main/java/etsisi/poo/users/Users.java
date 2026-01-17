@@ -1,4 +1,4 @@
-package etsisi.poo;
+package etsisi.poo.users;
 
 public abstract class Users {
     private String name;

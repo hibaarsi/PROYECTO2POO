@@ -1,10 +1,8 @@
 package etsisi.poo.Commands.ProdCommands;
 
-import etsisi.poo.Catalog;
+import etsisi.poo.products.Catalog;
 import etsisi.poo.Commands.ICommand;
-import etsisi.poo.Product;
-import etsisi.poo.errors.AppException;
-import etsisi.poo.errors.ErrorHandler;
+import etsisi.poo.products.Product;
 import etsisi.poo.errors.ValidationException;
 
 public class ProdUpdateCommand implements ICommand {

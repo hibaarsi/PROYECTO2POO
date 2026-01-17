@@ -1,7 +1,15 @@
 package etsisi.poo.persistence;
 
-import etsisi.poo.*;
 import etsisi.poo.persistence.dto.*;
+import etsisi.poo.printers.TicketMixPrinter;
+import etsisi.poo.printers.TicketProductoPrinter;
+import etsisi.poo.printers.TicketServicePrinter;
+import etsisi.poo.products.*;
+import etsisi.poo.products.services.Service;
+import etsisi.poo.tickets.*;
+import etsisi.poo.users.Cashier;
+import etsisi.poo.users.Client;
+import etsisi.poo.users.UserController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package etsisi.poo;
+package etsisi.poo.users;
 
 public class RegularClient extends Client {
     public RegularClient(String name, String email, String dni, Cashier cashier) {

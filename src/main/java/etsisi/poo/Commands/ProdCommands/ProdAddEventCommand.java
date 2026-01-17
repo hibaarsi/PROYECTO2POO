@@ -1,7 +1,10 @@
 package etsisi.poo.Commands.ProdCommands;
 
-import etsisi.poo.*;
 import etsisi.poo.errors.ValidationException;
+import etsisi.poo.products.Catalog;
+import etsisi.poo.products.EventProducts;
+import etsisi.poo.products.EventType;
+import etsisi.poo.products.Product;
 
 import java.time.*;
 import java.time.format.DateTimeParseException;

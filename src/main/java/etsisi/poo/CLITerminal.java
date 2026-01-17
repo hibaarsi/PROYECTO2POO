@@ -10,7 +10,6 @@ import etsisi.poo.Commands.ClientCommands.ClientListCommand;
 import etsisi.poo.Commands.ClientCommands.ClienteRemoveCommand;
 import etsisi.poo.Commands.ProdCommands.*;
 import etsisi.poo.Commands.TicketCommands.*;
-import etsisi.poo.errors.PersistenceException;
 import etsisi.poo.persistence.PersistenceManager;
 import etsisi.poo.persistence.json.JsonCatalogRepository;
 import etsisi.poo.persistence.json.JsonTicketsRepository;
@@ -22,6 +21,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import etsisi.poo.products.Catalog;
+import etsisi.poo.products.EventType;
+import etsisi.poo.tickets.TicketController;
+import etsisi.poo.users.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
