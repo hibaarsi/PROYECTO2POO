@@ -29,8 +29,20 @@ public class TicketsMapper {
             dto.endDate = (t.getEndDate() != null) ? t.getEndDate().toString() : null;
             dto.tipo = ticketTypeOf(t);
 
-            dto.cashierId = tc.getCashierIdOfTicket(dto.id);
-            dto.clientId = tc.getClientIdOfTicket(dto.id);
+            //dto.cashierId = tc.getCashierIdOfTicket(dto.id);
+            //dto.clientId = tc.getClientIdOfTicket(dto.id);
+            String cashierId = tc.getCashierIdOfTicket(dto.id);//id actual (después de cerrarse)
+            if (cashierId == null) {
+                cashierId = tc.getCashierIdOfTicket(entry.getKey());//id original del ticket (antes de cerrarse)
+            }
+            dto.cashierId = cashierId;
+
+            String clientId = tc.getClientIdOfTicket(dto.id);
+            if (clientId == null) {
+                clientId = tc.getClientIdOfTicket(entry.getKey());
+            }
+            dto.clientId = clientId;
+
 
             for (ElementoTicket<?> e : t.getElementos()) {
                 TicketItemDTO it = new TicketItemDTO();
@@ -65,7 +77,7 @@ public class TicketsMapper {
             if (t.status != null) model.setTicketStatus(TicketStatus.valueOf(t.status));
 
             // pongo status a OPEN temporalmente, añado items y luego se cierra
-            boolean shouldBeClosed = "CLOSED".equalsIgnoreCase(t.status);
+            boolean shouldBeClosed = "CLOSE".equalsIgnoreCase(t.status);
             if (shouldBeClosed) model.setTicketStatus(TicketStatus.OPEN);
             else model.setTicketStatus(original);
 
