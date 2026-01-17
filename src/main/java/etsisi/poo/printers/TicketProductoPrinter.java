@@ -123,6 +123,7 @@ public class TicketProductoPrinter implements TicketPrinter { // este es igual p
                 double basePrice = p.getPrice();
                 double effectivePrice = basePrice;
 
+
                 // Si es personalizado y tiene textos, aplicamos regla del 10% por texto
                 if (p instanceof ProductPersonalized && personalizations != null && !personalizations.isEmpty()) {
                     double surchargePerText = basePrice * 0.10; // 10% del base
