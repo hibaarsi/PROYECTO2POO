@@ -70,17 +70,27 @@ public class TicketMixPrinter implements TicketPrinter {
                 int qty = e.getQuantity();
 
                 if (it instanceof Product p) {
-                    // Si es producto normal, puede haber qty>1, pero en el ejemplo es Meeting ya normalizado a qty=1
-                    for (int i = 0; i < qty; i++) {
+
+                    String cls = p.getClass().getSimpleName();
+                    boolean isEvent = cls.equals("Meeting") || cls.equals("Food") || cls.equals("EventProducts");
+
+                    if (isEvent) {
                         System.out.println("  " + p);
+
+
+                        totalPrice += p.getPrice() * qty;
+
+                    } else {
+                        for (int i = 0; i < qty; i++) {
+                            System.out.println("  " + p);
+                        }
+                        totalPrice += p.getPrice() * qty;
                     }
-                    totalPrice += p.getPrice() * qty;
+
                 } else {
-                    // si no es Product, lo imprimimos tal cual
-                    for (int i = 0; i < qty; i++) {
-                        System.out.println("  " + it);
-                    }
+                    System.out.println("  " + it);
                 }
+
             }
 
             double extraDiscount = totalPrice * extraRate;
