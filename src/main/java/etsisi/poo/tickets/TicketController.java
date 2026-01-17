@@ -249,6 +249,30 @@ public class TicketController {
         return sb.toString();
     }
 
+    //para que si quieres imprimir  un ticket pille el id inicial sin la fecha
+    public TicketModel<? extends TicketItem> getTicketByBaseOrFullId(String id) {
+        // 1) exacto
+        TicketModel<? extends TicketItem> exact = tickets.get(id);
+        if (exact != null) return exact;
+
+        // 2) buscar por prefijo: "<base>-"
+        String prefix = id + "-";
+        TicketModel<? extends TicketItem> found = null;
+
+        for (String key : tickets.keySet()) {
+            if (key.startsWith(prefix)) {
+                if (found != null) {
+                    // hay más de uno -> ambigüo
+                    throw new etsisi.poo.errors.ValidationException(
+                            "Ambiguous ticket id '" + id + "'. Use full id shown in ticket list."
+                    );
+                }
+                found = tickets.get(key);
+            }
+        }
+        return found;
+    }
+
     public Map<String, TicketModel<? extends TicketItem>> getTicketsMap() {
         return tickets;
     }

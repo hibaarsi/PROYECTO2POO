@@ -37,7 +37,9 @@ public class TicketRemoveCommand implements ICommand {
         String ticketId = args[2];
         String cashierId = args[3];
         int productId = Integer.parseInt(args[4]);
-        TicketModel ticket = ticketController.getTicket(ticketId);
+        //TicketModel ticket = ticketController.getTicket(ticketId);
+        TicketModel<?> ticket = ticketController.getTicketByBaseOrFullId(ticketId);
+
         if (ticket == null) {
             throw new ValidationException("Ticket ID not found");
         }

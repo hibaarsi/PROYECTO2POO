@@ -93,7 +93,9 @@ public class TicketAddCommand implements ICommand {
 
         // Recuperamos el ticket y el cajero una sola vez para validar existencia
         // (Esto es común para ambos casos)
-        TicketModel<? extends TicketItem> ticket = ticketController.getTicket(ticketId);
+        //TicketModel<? extends TicketItem> ticket = ticketController.getTicket(ticketId);
+        TicketModel<?> ticket = ticketController.getTicketByBaseOrFullId(ticketId);
+
         if (ticket == null) {
             throw new ValidationException("Ticket not found: " + ticketId);
         }
