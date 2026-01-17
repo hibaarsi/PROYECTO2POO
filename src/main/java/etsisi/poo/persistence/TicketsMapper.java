@@ -99,7 +99,7 @@ public class TicketsMapper {
             }
 
             // 6) restaurar CLOSED al final
-            if (shouldBeClosed) model.setTicketStatus(TicketStatus.CLOSED);
+            if (shouldBeClosed) model.setTicketStatus(TicketStatus.CLOSE);
         }
     }
 
