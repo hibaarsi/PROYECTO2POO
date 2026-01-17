@@ -167,7 +167,7 @@ public abstract class TicketModel<T extends TicketItem> {
         }
 
         if (!isClosed()) {
-            ticketStatus = TicketStatus.CLOSED;
+            ticketStatus = TicketStatus.CLOSE;
             endDate = LocalDateTime.now();
             String cierre = "-" + endDate.format(DATE_FORMATTER);
             id += cierre;
@@ -175,7 +175,7 @@ public abstract class TicketModel<T extends TicketItem> {
     }
 
     public boolean isClosed() {
-        return ticketStatus == TicketStatus.CLOSED;
+        return ticketStatus == TicketStatus.CLOSE;
     }
 
     public String getId() {

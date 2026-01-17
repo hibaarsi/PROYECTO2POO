@@ -54,7 +54,8 @@ public class TicketPrintCommand implements ICommand {
                 return "Printer not found";
             }
 
-            printer.print(ticket); //imprime el que he elegido
+            printer.print(ticket);
+            ticket.close();//imprime el que he elegido
 
             return "ticket print: ok\n";
 
